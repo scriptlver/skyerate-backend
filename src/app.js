@@ -7,6 +7,8 @@ const morgan = require("morgan");
 
 const connectDB = require("./config/db");
 const userRoutes = require("./routes/userRoutes");
+const songRoutes = require("./routes/songRoutes");
+
 
 const app = express();
 
@@ -18,6 +20,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api/users", userRoutes);
+app.use("/songs", songRoutes);
 
 app.use((err, req, res, next) => {
   console.error("ERRO NO BACKEND:");

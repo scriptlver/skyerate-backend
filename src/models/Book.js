@@ -75,7 +75,6 @@ const BookSchema = new mongoose.Schema(
       enum: ["fisico", "ebook", "audiobook"],
     },
 
-    // 🔥 duração em minutos (apenas para audiobook)
     duration: {
       type: Number,
       min: 1,

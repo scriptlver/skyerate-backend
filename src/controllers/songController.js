@@ -15,7 +15,7 @@ async function createSong(req, res, next) {
       song,
     });
   } catch (err) {
-    if (err.message === "SONG_ALREADY_EXISTS") {
+    if (err.code === 11000) { // kkkkkkkkkkkkkkkkkkk
       return res.status(409).json({
         message: "Música já existe",
       });
@@ -85,6 +85,12 @@ async function updateSong(req, res, next) {
       song,
     });
   } catch (err) {
+    if (err.code === 11000) {
+      return res.status(409).json({
+        message: "Música já existe",
+      });
+    }
+
     if (err.name === "ValidationError") {
       return res.status(400).json({
         message: "Dados inválidos",

@@ -28,16 +28,16 @@ const SongSchema = new mongoose.Schema(
       enum: [
         "pop",
         "rock",
-        "k-pop",
-        "hip hop",
+        "hiphop",
+        "kpop",
         "rap",
-        "r&b",
         "indie",
         "alternativo",
         "funk",
         "mpb",
         "sertanejo",
         "jazz",
+        "outro",
       ],
     },
 
@@ -70,6 +70,8 @@ const SongSchema = new mongoose.Schema(
     externalId: {
       type: String,
       index: true,
+      unique: true,
+      sparse: true,
     },
   },
   { timestamps: true },

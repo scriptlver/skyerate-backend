@@ -1,4 +1,10 @@
-const { createSongService, getAllSongsService, getSongByIdService, updateSongService, deleteSongService,} = require("../services/songService");
+const {
+  createSongService,
+  getAllSongsService,
+  getSongByIdService,
+  updateSongService,
+  deleteSongService,
+} = require("../services/songService");
 
 async function createSong(req, res, next) {
   try {
@@ -12,6 +18,13 @@ async function createSong(req, res, next) {
     if (err.message === "SONG_ALREADY_EXISTS") {
       return res.status(409).json({
         message: "Música já existe",
+      });
+    }
+
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Dados inválidos",
+        errors: Object.values(err.errors).map(e => e.message),
       });
     }
 
@@ -47,6 +60,12 @@ async function getSongById(req, res, next) {
       song,
     });
   } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
     next(err);
   }
 }
@@ -66,6 +85,19 @@ async function updateSong(req, res, next) {
       song,
     });
   } catch (err) {
+    if (err.name === "ValidationError") {
+      return res.status(400).json({
+        message: "Dados inválidos",
+        errors: Object.values(err.errors).map(e => e.message),
+      });
+    }
+
+    if (err.name === "CastError") {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
     next(err);
   }
 }
@@ -84,6 +116,12 @@ async function deleteSong(req, res, next) {
       message: "Música deletada com sucesso",
     });
   } catch (err) {
+    if (err.name === "CastError") {
+      return res.status(400).json({
+        message: "ID inválido",
+      });
+    }
+
     next(err);
   }
 }

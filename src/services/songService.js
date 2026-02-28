@@ -1,12 +1,9 @@
 const Song = require("../models/Song");
 
 async function createSongService(data) {
-  const { title, artist, album, imageUrl, duration, genre } = data;
+  const { title, artist, album, coverImage, duration, genre, releaseDate, externalId } = data;
 
-  const songExists = await Song.findOne({
-    title,
-    artist,
-  });
+  const songExists = await Song.findOne({ title, artist });
 
   if (songExists) {
     throw new Error("SONG_ALREADY_EXISTS");
@@ -16,37 +13,39 @@ async function createSongService(data) {
     title,
     artist,
     album,
-    imageUrl,
+    coverImage,  
     duration,
     genre,
+    releaseDate,
+    externalId,
   });
 
-  const songObject = song.toObject();
-
-  return songObject;
+  return song.toObject();
 }
 
 async function getAllSongsService() {
-  const songs = await Song.find();
-  return songs;
+  return await Song.find();
 }
 
 async function getSongByIdService(id) {
-  const song = await Song.findById(id);
-  return song;
+  return await Song.findById(id);
 }
 
 async function updateSongService(id, data) {
-  const song = await Song.findByIdAndUpdate(id, data, {
-    new: true,
-  });
+  const song = await Song.findByIdAndUpdate(
+    id,
+    data,
+    {
+      new: true,
+      runValidators: true, 
+    }
+  );
 
   return song;
 }
 
 async function deleteSongService(id) {
-  const song = await Song.findByIdAndDelete(id);
-  return song;
+  return await Song.findByIdAndDelete(id);
 }
 
 module.exports = {

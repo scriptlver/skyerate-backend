@@ -2,31 +2,47 @@ const mongoose = require("mongoose");
 
 const SongSchema = new mongoose.Schema(
   {
-    title: { 
+    title: {
       type: String,
       required: true,
       trim: true,
     },
 
-    artist: { 
+    artist: {
       type: String,
       required: true,
       trim: true,
     },
 
-    album: { 
+    album: {
       type: String,
       default: null,
       trim: true,
     },
 
-    genre: { 
+    genre: {
       type: String,
-      default: null,
+      required: true,
       trim: true,
+      lowercase: true,
+      enum: [
+        "pop",
+        "rock",
+        "k-pop",
+        "hip hop",
+        "rap",
+        "r&b",
+        "indie",
+        "alternativo",
+        "funk",
+        "mpb",
+        "sertanejo",
+        "jazz",
+      ],
     },
 
-    duration: { // duração em minutos e segundos rs (obrigatório)
+    duration: {
+      // duração em minutos e segundos
       minutes: {
         type: Number,
         required: true,
@@ -40,29 +56,23 @@ const SongSchema = new mongoose.Schema(
       },
     },
 
-    releaseDate: { 
+    releaseDate: {
       type: Date,
       default: null,
     },
 
     coverImage: {
       type: String,
-      default: null,
+      required: true,
       trim: true,
     },
 
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
-    },
-
-    isActive: {
-      type: Boolean,
-      default: true,
+    externalId: {
+      type: String,
+      index: true,
     },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Song", SongSchema);

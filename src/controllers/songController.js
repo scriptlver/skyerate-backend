@@ -15,7 +15,7 @@ async function createSong(req, res, next) {
       song,
     });
   } catch (err) {
-    if (err.code === 11000) { // kkkkkkkkkkkkkkkkkkk
+    if (err.code === 11000) {
       return res.status(409).json({
         message: "Música já existe",
       });

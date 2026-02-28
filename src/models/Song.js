@@ -20,16 +20,16 @@ const SongSchema = new mongoose.Schema(
       trim: true,
     },
 
+    // permite multiplos gêneros
     genre: {
-      type: String,
+      type: [String],
       required: true,
-      trim: true,
       lowercase: true,
       enum: [
         "pop",
+        "kpop",
         "rock",
         "hiphop",
-        "kpop",
         "rap",
         "indie",
         "alternativo",
@@ -42,7 +42,6 @@ const SongSchema = new mongoose.Schema(
     },
 
     duration: {
-      // duração em minutos e segundos
       minutes: {
         type: Number,
         required: true,
@@ -66,6 +65,38 @@ const SongSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+
+    featuring: {
+      type: [String],
+      default: [],
+      trim: true,
+    },
+
+    songwriters: {
+      type: [String],
+      required: true,
+      trim: true,
+    },
+
+    producers: {
+      type: [String],
+      required: true,
+      trim: true,
+    },
+
+    externalLinks: [
+      {
+        platform: {
+          type: String,
+          enum: ["spotify", "youtube", "applemusic"],
+          lowercase: true,
+        },
+        url: {
+          type: String,
+          trim: true,
+        },
+      },
+    ],
 
     externalId: {
       type: String,

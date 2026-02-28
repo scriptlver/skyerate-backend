@@ -25,6 +25,13 @@ async function createUserService(data) {
   return userObject;
 }
 
+async function getUsersService() {
+  const users = await User.find().select("-password");
+
+  return users;
+}
+
 module.exports = {
   createUserService,
+  getUsersService,
 };

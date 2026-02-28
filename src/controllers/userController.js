@@ -1,4 +1,4 @@
-const { createUserService } = require("../services/userService");
+const { createUserService, getUsersService } = require("../services/userService");
 
 async function createUser(req, res, next) {
   try {
@@ -19,6 +19,17 @@ async function createUser(req, res, next) {
   }
 }
 
+async function getUsers(req, res, next) {
+  try {
+    const users = await getUsersService();
+
+    return res.status(200).json(users);
+  } catch (err) {
+    next(err);
+  }
+}
+
 module.exports = {
   createUser,
+  getUsers,
 };

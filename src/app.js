@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 
 app.use("/api/users", userRoutes);
-app.use("/songs", songRoutes);
+app.use("/api/songs", songRoutes);
 app.use("/api/books", bookRoutes);
 
 app.use((err, req, res, next) => {

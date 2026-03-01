@@ -29,7 +29,20 @@ async function getUsers(req, res, next) {
   }
 }
 
+async function deleteUser(req, res, next) {
+  try {
+    const { id } = req.params;
+
+    const result = await deleteUserService(id);
+
+    return res.status(200).json(result);
+  } catch (error) {
+    next(error);
+  }
+}
+
 module.exports = {
   createUser,
   getUsers,
+  deleteUser,
 };

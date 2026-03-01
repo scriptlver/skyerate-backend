@@ -15,7 +15,7 @@ async function createUserService(data) {
     name,
     email,
     cpf,
-    password, 
+    password,
     role,
   });
 
@@ -27,11 +27,23 @@ async function createUserService(data) {
 
 async function getUsersService() {
   const users = await User.find().select("-password");
-
   return users;
+}
+
+async function deleteUserService(id) {
+  const user = await User.findById(id);
+
+  if (!user) {
+    throw new Error("USER_NOT_FOUND");
+  }
+
+  await User.findByIdAndDelete(id);
+
+  return { message: "Usuário deletado com sucesso." };
 }
 
 module.exports = {
   createUserService,
   getUsersService,
+  deleteUserService,
 };

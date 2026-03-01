@@ -39,7 +39,7 @@ async function deleteUserService(id) {
 
   await User.findByIdAndDelete(id);
 
-  return { message: "Usuário deletado com sucesso." };
+  return { message: "Usuário excluído com sucesso." };
 }
 
 module.exports = {

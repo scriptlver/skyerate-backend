@@ -14,6 +14,7 @@ async function createSongService(data) {
     producers,
     externalLinks,
     externalId,
+    description, 
   } = data;
 
   const song = await Song.create({
@@ -29,6 +30,7 @@ async function createSongService(data) {
     producers,
     externalLinks,
     externalId,
+    description,
   });
 
   return song.toObject();
@@ -58,6 +60,7 @@ async function updateSongService(id, data) {
     "producers",
     "externalLinks",
     "externalId",
+    "description", 
   ];
 
   const updateData = {};

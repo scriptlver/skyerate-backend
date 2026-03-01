@@ -20,7 +20,7 @@ const SongSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // permite multiplos gêneros
+    // permite múltiplos gêneros
     genre: {
       type: [String],
       required: true,
@@ -103,6 +103,13 @@ const SongSchema = new mongoose.Schema(
       index: true,
       unique: true,
       sparse: true,
+    },
+
+    description: {
+      type: String,
+      required: [true, "A descrição da música é obrigatória"],
+      trim: true,
+      maxlength: 1000,
     },
   },
   { timestamps: true },

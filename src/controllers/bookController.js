@@ -4,7 +4,7 @@ const {
   deleteBookService,
 } = require("../services/bookService");
 
-// 🔥 Criar livro
+
 async function createBook(req, res, next) {
   try {
     const book = await createBookService(req.body);

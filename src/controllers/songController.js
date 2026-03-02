@@ -2,11 +2,13 @@ const {
   createSongService,
   getAllSongsService,
   getSongsByGenreService,
+  getSongsByArtistService,
   getSongByIdService,
   updateSongService,
   deleteSongService,
 } = require("../services/songService");
 
+// criar música
 async function createSong(req, res, next) {
   try {
     const song = await createSongService(req.body);
@@ -23,7 +25,7 @@ async function createSong(req, res, next) {
     if (err.name === "ValidationError") {
       return res.status(400).json({
         message: "Dados inválidos",
-        errors: Object.values(err.errors).map((e) => e.message),
+        errors: Object.values(err.errors).map(e => e.message),
       });
     }
 
@@ -31,6 +33,7 @@ async function createSong(req, res, next) {
   }
 }
 
+// listar todas
 async function getAllSongs(req, res, next) {
   try {
     const songs = await getAllSongsService();
@@ -44,6 +47,7 @@ async function getAllSongs(req, res, next) {
   }
 }
 
+// listar por gênero
 async function getSongsByGenre(req, res, next) {
   try {
     const { genre } = req.params;
@@ -59,6 +63,24 @@ async function getSongsByGenre(req, res, next) {
   }
 }
 
+// listar por artista
+async function getSongsByArtist(req, res, next) {
+  try {
+    const { artist } = req.params;
+    const decodedArtist = decodeURIComponent(artist);
+
+    const songs = await getSongsByArtistService(decodedArtist);
+
+    return res.status(200).json({
+      message: `Lista de músicas do artista ${decodedArtist}`,
+      songs,
+    });
+  } catch (err) {
+    next(err);
+  }
+}
+
+// buscar por id
 async function getSongById(req, res, next) {
   try {
     const song = await getSongByIdService(req.params.id);
@@ -80,6 +102,7 @@ async function getSongById(req, res, next) {
   }
 }
 
+// atualizar
 async function updateSong(req, res, next) {
   try {
     const song = await updateSongService(req.params.id, req.body);
@@ -100,7 +123,7 @@ async function updateSong(req, res, next) {
     if (err.name === "ValidationError") {
       return res.status(400).json({
         message: "Dados inválidos",
-        errors: Object.values(err.errors).map((e) => e.message),
+        errors: Object.values(err.errors).map(e => e.message),
       });
     }
 
@@ -112,6 +135,7 @@ async function updateSong(req, res, next) {
   }
 }
 
+// deletar
 async function deleteSong(req, res, next) {
   try {
     const song = await deleteSongService(req.params.id);
@@ -136,6 +160,7 @@ module.exports = {
   createSong,
   getAllSongs,
   getSongsByGenre,
+  getSongsByArtist,
   getSongById,
   updateSong,
   deleteSong,

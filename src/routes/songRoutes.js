@@ -5,6 +5,7 @@ const {
   createSong,
   getAllSongs,
   getSongsByGenre,
+  getSongsByArtist,
   getSongById,
   updateSong,
   deleteSong,
@@ -13,8 +14,9 @@ const {
 // criar música
 router.post("/", createSong);
 
-// listar músicas por gênero 
-router.get("/:genre", getSongsByGenre);
+// listar por gênero e artista
+router.get("/genre/:genre", getSongsByGenre);
+router.get("/artist/:artist", getSongsByArtist);
 
 // listar todas
 router.get("/", getAllSongs);

@@ -5,14 +5,20 @@ async function createSongService(data) {
 }
 
 async function getAllSongsService() {
-  return await Song.find()
-    .sort({ createdAt: -1 })
-    .lean();
+  return await Song.find().sort({ createdAt: -1 }).lean();
 }
 
 async function getSongsByGenreService(genre) {
   return await Song.find({
     genre: genre.toLowerCase(),
+  })
+    .sort({ createdAt: -1 })
+    .lean();
+}
+
+async function getSongsByArtistService(artist) {
+  return await Song.find({
+    artist: { $regex: new RegExp(`^${artist}$`, "i") },
   })
     .sort({ createdAt: -1 })
     .lean();
@@ -61,6 +67,7 @@ module.exports = {
   createSongService,
   getAllSongsService,
   getSongsByGenreService,
+  getSongsByArtistService,
   getSongByIdService,
   updateSongService,
   deleteSongService,

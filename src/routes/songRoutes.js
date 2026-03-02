@@ -4,6 +4,7 @@ const router = express.Router();
 const {
   createSong,
   getAllSongs,
+  getSongsByGenre,
   getSongById,
   updateSong,
   deleteSong,
@@ -11,6 +12,9 @@ const {
 
 // criar música
 router.post("/", createSong);
+
+// listar músicas por gênero 
+router.get("/:genre", getSongsByGenre);
 
 // listar todas
 router.get("/", getAllSongs);

@@ -1,43 +1,19 @@
 const Song = require("../models/Song");
 
 async function createSongService(data) {
-  const {
-    title,
-    artist,
-    album,
-    genre,
-    duration,
-    releaseDate,
-    coverImage,
-    featuring,
-    songwriters,
-    producers,
-    externalLinks,
-    externalId,
-    description, 
-  } = data;
-
-  const song = await Song.create({
-    title,
-    artist,
-    album,
-    genre,
-    duration,
-    releaseDate,
-    coverImage,
-    featuring,
-    songwriters,
-    producers,
-    externalLinks,
-    externalId,
-    description,
-  });
-
-  return song.toObject();
+  return await Song.create(data);
 }
 
 async function getAllSongsService() {
   return await Song.find()
+    .sort({ createdAt: -1 })
+    .lean();
+}
+
+async function getSongsByGenreService(genre) {
+  return await Song.find({
+    genre: genre.toLowerCase(),
+  })
     .sort({ createdAt: -1 })
     .lean();
 }
@@ -60,7 +36,7 @@ async function updateSongService(id, data) {
     "producers",
     "externalLinks",
     "externalId",
-    "description", 
+    "description",
   ];
 
   const updateData = {};
@@ -70,15 +46,11 @@ async function updateSongService(id, data) {
     }
   }
 
-  return await Song.findByIdAndUpdate(
-    id,
-    updateData,
-    {
-      new: true,
-      runValidators: true,
-      lean: true,
-    }
-  );
+  return await Song.findByIdAndUpdate(id, updateData, {
+    new: true,
+    runValidators: true,
+    lean: true,
+  });
 }
 
 async function deleteSongService(id) {
@@ -88,6 +60,7 @@ async function deleteSongService(id) {
 module.exports = {
   createSongService,
   getAllSongsService,
+  getSongsByGenreService,
   getSongByIdService,
   updateSongService,
   deleteSongService,

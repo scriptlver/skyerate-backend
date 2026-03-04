@@ -38,16 +38,6 @@ const UserSchema = new mongoose.Schema(
       default: "user",
     },
 
-    profilePicture: {
-      type: String,
-      default: null,
-    },
-
-    bio: {
-      type: String,
-      maxlength: 300,
-    },
-
     deleteReason: {
       type: String,
       default: null,
@@ -58,11 +48,8 @@ const UserSchema = new mongoose.Schema(
       default: null,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
-
 
 UserSchema.pre("save", async function () {
   if (!this.isModified("password")) return;

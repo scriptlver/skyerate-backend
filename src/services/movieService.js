@@ -137,13 +137,21 @@ async function updateMovieService(id,data) {
 }
 
 async function deleteMovieService(id) {
-  return await Movie.findByIdAndDelete(id).lean();
+    const movie = await Movie.findByIdAndDelete(id);
+
+    if (!movie) {
+    throw new Error("MOVIE_NOT_FOUND");
+   }
+
+   return { message: "Filme excluído com sucesso." };
+  
 }
 
 module.exports = {
   createMovieService,
   getAllMovieService,
   getMovieByGenreService,
+  getMovieByIdService,
   updateMovieService,
   deleteMovieService,
 };

@@ -19,14 +19,14 @@ const MovieSchema = new mongoose.Schema(
             required:true,
             lowercase: true,
             enum: [
-                "Terror",
-               "Suspense",
-               "Ação",
-              "Ficção Científica",
-              "Romance",
-              "Comédia",
-              "Comédia romântica",
-              "Drama"
+                "terror",
+               "suspense",
+               "ação",
+              "ficção científica",
+              "romance",
+              "comédia",
+              "comédia romântica",
+              "drama"
             ]
         },
 
@@ -48,8 +48,7 @@ const MovieSchema = new mongoose.Schema(
         },
 
         coverImage:{
-            type:String,
-            required:true,
+            type:String
         },
 
         isBook:{
@@ -72,10 +71,10 @@ const MovieSchema = new mongoose.Schema(
             trim:true,
         },
 
-        externalLinks:{
-            type:[String],
-            trim:true,
-        },
+        externalLinks: [{
+            type: String,
+            trim: true
+       }],
 
         externalId: {
             type: String,

@@ -2,7 +2,7 @@ const { gql } = require("apollo-server-express");
 
 const bookSchema = gql`
   type Book {
-    id: ID!
+    _id: ID!
     title: String!
     author: String!
     description: String

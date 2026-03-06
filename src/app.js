@@ -8,8 +8,8 @@ const { ApolloServer } = require("apollo-server-express");
 
 const connectDB = require("./config/db");
 
-const userRoutes = require("./routes/userRoutes");
-const bookRoutes = require("./routes/bookRoutes");
+const bookSchema = require("./graphql/schemas/bookSchema");
+const bookResolvers = require("./graphql/resolvers/bookResolver");
 
 const songSchema = require("./graphql/schemas/songSchema");
 const songResolvers = require("./graphql/resolvers/songResolver");
@@ -23,8 +23,6 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(morgan("dev"));
 
-app.use("/api/users", userRoutes);
-app.use("/api/books", bookRoutes);
 
 async function startApollo() {
   const server = new ApolloServer({

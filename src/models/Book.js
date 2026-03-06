@@ -14,6 +14,11 @@ const BookSchema = new mongoose.Schema(
       trim: true,
     },
 
+     description: {
+      type: String,
+      trim: true,
+    },
+
     isbn: {
       type: String,
       required: true,
@@ -31,17 +36,34 @@ const BookSchema = new mongoose.Schema(
       required: true,
     },
 
-    description: {
-      type: String,
-      trim: true,
-    },
-
+  
     categories: [
-      {
-        type: String,
-        trim: true,
-      },
+  {
+    type: String,
+    enum: [
+      "fantasia",
+      "ficcao",
+      "ficcao-cientifica",
+      "romance",
+      "misterio",
+      "thriller",
+      "terror",
+      "aventura",
+      "drama",
+      "historico",
+      "distopia",
+      "young-adult",
+      "infantil",
+      "biografia",
+      "autobiografia",
+      "poesia",
+      "lgbtq+",
+      "nao-ficcao",
+      "autoajuda",
+      "filosofia"
     ],
+  },
+],
 
     publishYear: Number,
 

@@ -28,8 +28,8 @@ app.use(morgan("dev"));
 
 async function startApollo() {
   const server = new ApolloServer({
-    typeDefs: [songSchema, userSchema],
-    resolvers: [songResolvers, userResolvers],
+    typeDefs: [songSchema, userSchema, bookSchema],
+    resolvers: [songResolvers, userResolvers, bookResolvers],
   });
 
   await server.start();

@@ -35,7 +35,7 @@ const typeBook = gql`
     booksByAuthor(author: String!): [Book]
     booksByCategory(category: String!): [Book]
     booksByTitle(title: String!): [Book]
-    booksByIsbn(isbn: String!): Book
+    bookByIsbn(isbn: String!): Book
     booksBySeries(seriesName: String!): [Book]
     booksByYear(publishYear: Int!): [Book]
     topRatedBooks: [Book]
@@ -83,4 +83,4 @@ const typeBook = gql`
   }
 `;
 
-module.exports = { typeBook };
+module.exports = typeBook;

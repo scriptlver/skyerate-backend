@@ -21,11 +21,12 @@
   },
   "homepage": "https://github.com/scriptlver/skyerate-backend#readme",
   "dependencies": {
+    "apollo-server-express": "^3.13.0",
     "bcrypt": "^6.0.0",
     "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
-    "express": "^5.2.1",
+    "express": "^4.17.1",
     "express-graphql": "^0.12.0",
     "express-validator": "^7.3.1",
     "graphql": "^16.13.1",

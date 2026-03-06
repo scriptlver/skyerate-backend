@@ -40,12 +40,12 @@ const bookResolver = {
   },
 
   Mutation: {
-    createBook: async (_, { data }) => {
-      return await bookController.createBook(data);
+    createBook: async (_, { input }) => {
+      return await bookController.createBook(input);
     },
 
-    updateBook: async (_, { id, data }) => {
-      return await bookController.updateBook(id, data);
+    updateBook: async (_, { id, input }) => {
+      return await bookController.updateBook(id, input);
     },
 
     deleteBook: async (_, { id }) => {

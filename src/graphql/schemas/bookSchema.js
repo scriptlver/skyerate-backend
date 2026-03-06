@@ -1,6 +1,6 @@
 const { gql } = require("apollo-server-express");
 
-const typeBook = gql`
+const bookSchema = gql`
   type Book {
     id: ID!
     title: String!
@@ -16,17 +16,8 @@ const typeBook = gql`
     isSeries: Boolean
     seriesName: String
     volume: Int
-    format: String
-    duration: Int
-    rating: Rating
-    externalId: String
     createdAt: String
     updatedAt: String
-  }
-
-  type Rating {
-    average: Float
-    count: Int
   }
 
   type Query {
@@ -55,8 +46,6 @@ const typeBook = gql`
     isSeries: Boolean
     seriesName: String
     volume: Int
-    format: String
-    duration: Int
   }
 
   input UpdateBookInput {
@@ -72,8 +61,6 @@ const typeBook = gql`
     isSeries: Boolean
     seriesName: String
     volume: Int
-    format: String
-    duration: Int
   }
 
   type Mutation {
@@ -83,4 +70,4 @@ const typeBook = gql`
   }
 `;
 
-module.exports = typeBook;
+module.exports = bookSchema;

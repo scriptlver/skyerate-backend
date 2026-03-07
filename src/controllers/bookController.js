@@ -1,11 +1,11 @@
 const Book = require("../models/Book");
 
-async function createBook(data) {
-  return Book.create(data);
+async function createBook(input) {
+  return Book.create(input);
 }
 
 async function getAllBooks() {
-  return Book.find().sort({ createdAt: -1 }).lean();
+  return Book.find().sort({ createdAt: -1 });
 }
 
 async function getBooksByCategory(category) {
@@ -48,8 +48,8 @@ async function getBookById(id) {
   return Book.findById(id);
 }
 
-async function updateBook(id, data) {
-  return Book.findByIdAndUpdate(id, data, {
+async function updateBook(id, input) {
+  return Book.findByIdAndUpdate(id, input, {
     new: true,
     runValidators: true,
   });

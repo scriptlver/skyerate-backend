@@ -1,6 +1,10 @@
 const Book = require("../models/Book");
 
 async function createBook(input) {
+  if (input.categories) {
+    input.categories = input.categories.map(cat => cat.toLowerCase());
+  }
+
   return Book.create(input);
 }
 

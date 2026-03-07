@@ -60,7 +60,9 @@ const BookSchema = new mongoose.Schema(
       "lgbtq+",
       "nao-ficcao",
       "autoajuda",
-      "filosofia"
+      "filosofia",
+      "horror",
+      "juvenil"
     ],
   },
 ],

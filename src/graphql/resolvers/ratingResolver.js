@@ -43,9 +43,29 @@ const ratingResolver = {
     updateRating: async (_, { id, input }) => {
       return await ratingController.updateRating(id, input);
     },
-    
+
     deleteRating: async (_, { id }) => {
       return await ratingController.deleteRating(id);
+    },
+  },
+
+  Rating: {
+    item: async (rating) => {
+      const typeMap = {
+        Book: require("../../models/Book"),
+        Song: require("../../models/Song"),
+      };
+      const Model = typeMap[rating.itemType];
+      if (!Model) return null;
+      return await Model.findById(rating.itemId);
+    },
+  },
+
+  ItemUnion: {
+    __resolveType: (obj) => {
+      if (obj.pages !== undefined) return "Book";
+      if (obj.album !== undefined) return "Song";
+      return null;
     },
   },
 };

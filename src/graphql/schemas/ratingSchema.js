@@ -2,10 +2,13 @@ const { gql } = require("apollo-server-express");
 
 const ratingSchema = gql`
 
+union ItemUnion = Book | Song
+
   type Rating {
     id: ID
     itemId: String
     itemType: String
+    item: ItemUnion
     user: User!
     subRatings: [SubRating]
     finalScore: Float

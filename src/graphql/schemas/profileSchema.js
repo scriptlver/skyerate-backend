@@ -13,7 +13,7 @@ const profileSchema = gql`
   type Profile {
     id: ID!
     user: User!
-    username: String!
+    username: String
     bio: String
     isPrivate: Boolean
     favorites: [FavoriteItem]

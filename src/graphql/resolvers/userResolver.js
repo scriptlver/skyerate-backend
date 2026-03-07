@@ -36,6 +36,31 @@ const userResolver = {
       return user;
     },
 
+    loginUser: async (_, { email, password }) => {
+      const user = await User.findOne({ email }).select("+password");
+
+      if (!user) {
+        throw new Error("Usuário não encontrado");
+      }
+
+      const isMatch = await user.comparePassword(password);
+
+      if (!isMatch) {
+        throw new Error("Senha inválida");
+      }
+
+      const token = jwt.sign(
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: "7d" }
+      );
+
+      return {
+        token,
+        user,
+      };
+    },
+
     deleteUser: async (_, { id, reason }) => {
       const user = await User.findById(id);
 

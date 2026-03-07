@@ -14,6 +14,11 @@ const userSchema = gql`
     updatedAt: String
   }
 
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
   type Query {
     users: [User]
     user(id: ID!): User
@@ -26,6 +31,11 @@ const userSchema = gql`
       cpf: String!
       password: String!
     ): User
+
+    loginUser(
+      email: String!
+      password: String!
+    ): AuthPayload
 
     deleteUser(
       id: ID!

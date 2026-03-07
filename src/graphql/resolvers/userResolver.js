@@ -52,7 +52,7 @@ const userResolver = {
       const token = jwt.sign(
         { id: user._id, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: "7d" }
+        { expiresIn: "7d" },
       );
 
       return {
@@ -61,17 +61,12 @@ const userResolver = {
       };
     },
 
-    deleteUser: async (_, { id, reason }) => {
-      const user = await User.findById(id);
+    deleteUser: async (_, { id }) => {
+      const user = await User.findByIdAndDelete(id);
 
       if (!user) {
         throw new Error("Usuário não encontrado");
       }
-
-      user.deletedAt = new Date();
-      user.deleteReason = reason || "Sem motivo informado";
-
-      await user.save();
 
       return user;
     },

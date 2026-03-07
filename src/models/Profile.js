@@ -29,20 +29,26 @@ const ProfileSchema = new mongoose.Schema(
 
     favorites: [
       {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Item",
+        item: {
+          type: mongoose.Schema.Types.ObjectId,
+          required: true,
+          refPath: "favorites.itemType",
+        },
+        itemType: {
+          type: String,
+          required: true,
+          enum: ["Book", "Movie", "Series", "Anime", "Song", "FigureSkating"],
+        },
+        addedAt: {
+          type: Date,
+          default: Date.now,
+        },
       },
     ],
 
     favoriteOfMonth: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Item",
-      default: null,
-    },
-
-    pinnedReview: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Review",
       default: null,
     },
 
@@ -60,7 +66,9 @@ const ProfileSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  {
+    timestamps: true,
+  },
 );
 
 module.exports = mongoose.model("Profile", ProfileSchema);

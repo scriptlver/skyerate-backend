@@ -35,5 +35,3 @@ const songResolver = {
 };
 
 module.exports = songResolver;
-
-

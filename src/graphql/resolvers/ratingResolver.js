@@ -1,51 +1,51 @@
-const ratingService = require("../services/ratingService");
+const ratingController = require("../../controllers/ratingController");
 
 const ratingResolver = {
   Query: {
     ratings: async () => {
-      return await ratingService.getAllRatings();
+      return await ratingController.getAllRatings();
     },
 
     rating: async (_, { id }) => {
-      return await ratingService.getRatingById(id);
+      return await ratingController.getRatingById(id);
     },
 
     ratingsByUser: async (_, { userId }) => {
-      return await ratingService.getRatingsByUser(userId);
+      return await ratingController.getRatingsByUser(userId);
     },
 
     ratingsByItem: async (_, { itemId }) => {
-      return await ratingService.getRatingsByItem(itemId);
+      return await ratingController.getRatingsByItem(itemId);
     },
 
     ratingsByType: async (_, { itemType }) => {
-      return await ratingService.getRatingsByType(itemType);
+      return await ratingController.getRatingsByType(itemType);
     },
 
     topRatedRatings: async (_, { limit = 10 }) => {
-      return await ratingService.getTopRatings(limit);
+      return await ratingController.getTopRatings(limit);
     },
 
     recentRatings: async (_, { limit = 10 }) => {
-      return await ratingService.getRecentRatings(limit);
+      return await ratingController.getRecentRatings(limit);
     },
 
     trendingRatings: async (_, { limit = 10 }) => {
-      return await ratingService.getTrendingRatings(limit);
+      return await ratingController.getTrendingRatings(limit);
     },
   },
 
   Mutation: {
     createRating: async (_, { input }) => {
-      return await ratingService.createRating(input);
+      return await ratingController.createRating(input);
     },
 
     updateRating: async (_, { id, input }) => {
-      return await ratingService.updateRating(id, input);
+      return await ratingController.updateRating(id, input);
     },
     
     deleteRating: async (_, { id }) => {
-      return await ratingService.deleteRating(id);
+      return await ratingController.deleteRating(id);
     },
   },
 };

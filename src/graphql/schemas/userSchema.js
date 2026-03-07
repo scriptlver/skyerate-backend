@@ -7,7 +7,7 @@ const userSchema = gql`
     email: String!
     cpf: String!
     role: String
-    password: String
+    password: String!
     deletedAt: String
     deleteReason: String
     createdAt: String

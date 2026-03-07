@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const userResolver = {
   Query: {
     users: async () => {
-      return await User.find({ deletedAt: null });
+      return await User.find({ deletedAt: null }).select("+password");
     },
 
     user: async (_, { id }) => {

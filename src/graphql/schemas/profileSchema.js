@@ -1,14 +1,12 @@
 const { gql } = require("apollo-server-express");
 
 const profileSchema = gql`
-
   type FavoriteItem {
     id: ID!
     itemType: String!
     item: Item
     addedAt: String
   }
-
 
   type Profile {
     id: ID!
@@ -24,7 +22,6 @@ const profileSchema = gql`
     updatedAt: String
   }
 
-
   input FavoriteItemInput {
     itemId: ID!
     itemType: String!
@@ -36,13 +33,11 @@ const profileSchema = gql`
     isPrivate: Boolean
   }
 
-
   type Query {
     getProfile(userId: ID!): Profile
     getFollowers(userId: ID!): [User]
     getFollowing(userId: ID!): [User]
   }
-
 
   type Mutation {
     updateProfile(userId: ID!, input: UpdateProfileInput!): Profile

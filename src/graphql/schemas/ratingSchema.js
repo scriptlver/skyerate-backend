@@ -1,8 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const ratingSchema = gql`
-
-union ItemUnion = Book | Song
+  union ItemUnion = Book | Song
 
   type Rating {
     id: ID

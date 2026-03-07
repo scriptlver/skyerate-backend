@@ -3,8 +3,6 @@ const User = require("../models/User");
 const Book = require("../models/Book");
 const Song = require("../models/Song");
 
-
-
 async function populateItem(rating) {
   if (!rating) return rating;
 
@@ -17,16 +15,16 @@ async function populateItem(rating) {
   if (!Model) return rating;
 
   const item = await Model.findById(rating.itemId);
-  rating.item = item; 
+  rating.item = item;
   return rating;
 }
-
 
 async function createRating(data) {
   try {
     if (data.subRatings && data.subRatings.length > 0) {
       const total = data.subRatings.reduce((acc, r) => acc + r.score, 0);
-      data.finalScore = Math.round((total / data.subRatings.length) * 100) / 100;
+      data.finalScore =
+        Math.round((total / data.subRatings.length) * 100) / 100;
     } else if (data.finalScore !== undefined && data.finalScore !== null) {
       data.finalScore = Math.round(data.finalScore * 100) / 100;
     }
@@ -39,12 +37,12 @@ async function createRating(data) {
   }
 }
 
-
 async function updateRating(id, data) {
   try {
     if (data.subRatings && data.subRatings.length > 0) {
       const total = data.subRatings.reduce((acc, r) => acc + r.score, 0);
-      data.finalScore = Math.round((total / data.subRatings.length) * 100) / 100;
+      data.finalScore =
+        Math.round((total / data.subRatings.length) * 100) / 100;
     } else if (data.finalScore !== undefined && data.finalScore !== null) {
       data.finalScore = Math.round(data.finalScore * 100) / 100;
     }
@@ -60,12 +58,10 @@ async function updateRating(id, data) {
   }
 }
 
-
 async function getAllRatings() {
   const ratings = await Rating.find().sort({ createdAt: -1 }).populate("user");
   return await Promise.all(ratings.map(populateItem));
 }
-
 
 async function getRatingsByUser(userId) {
   const ratings = await Rating.find({ user: userId })
@@ -74,14 +70,12 @@ async function getRatingsByUser(userId) {
   return await Promise.all(ratings.map(populateItem));
 }
 
-
 async function getRatingsByItem(itemId) {
   const ratings = await Rating.find({ itemId })
     .sort({ createdAt: -1 })
     .populate("user");
   return await Promise.all(ratings.map(populateItem));
 }
-
 
 async function getRatingsByType(itemType) {
   const ratings = await Rating.find({ itemType })
@@ -90,12 +84,10 @@ async function getRatingsByType(itemType) {
   return await Promise.all(ratings.map(populateItem));
 }
 
-
 async function getRatingById(id) {
   const rating = await Rating.findById(id).populate("user");
   return await populateItem(rating);
 }
-
 
 async function getTopRatings(limit = 10) {
   const ratings = await Rating.find()
@@ -105,7 +97,6 @@ async function getTopRatings(limit = 10) {
   return await Promise.all(ratings.map(populateItem));
 }
 
-
 async function getRecentRatings(limit = 10) {
   const ratings = await Rating.find()
     .sort({ createdAt: -1 })
@@ -114,7 +105,6 @@ async function getRecentRatings(limit = 10) {
   return await Promise.all(ratings.map(populateItem));
 }
 
-
 async function getTrendingRatings(limit = 10) {
   const ratings = await Rating.find()
     .sort({ finalScore: -1, createdAt: -1 })
@@ -122,7 +112,6 @@ async function getTrendingRatings(limit = 10) {
     .populate("user");
   return await Promise.all(ratings.map(populateItem));
 }
-
 
 async function deleteRating(id) {
   const deleted = await Rating.findByIdAndDelete(id);

@@ -20,7 +20,13 @@ async function getFollowing(userId) {
 }
 
 async function updateProfile(userId, input) {
-  return await Profile.findOneAndUpdate({ user: userId }, input, { new: true });
+  const profile = await Profile.findOneAndUpdate(
+    { user: userId },
+    input,
+    { new: true, upsert: true }
+  );
+
+  return profile;
 }
 
 async function addFavorite(userId, input) {
@@ -87,6 +93,11 @@ async function unfollowUser(userId, unfollowId) {
   return profile;
 }
 
+async function deleteProfile(userId) {
+  await Profile.findOneAndDelete({ user: userId });
+  return "Perfil excluído com sucesso";
+}
+
 module.exports = {
   getProfile,
   getFollowers,
@@ -97,4 +108,5 @@ module.exports = {
   setFavoriteOfMonth,
   followUser,
   unfollowUser,
+  deleteProfile,
 };

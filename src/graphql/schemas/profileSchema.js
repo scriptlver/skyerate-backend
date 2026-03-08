@@ -6,6 +6,7 @@ union ItemUnion = Book | Song
 
   type FavoriteItem {
     id: ID!
+    itemId: ID!
     itemType: String!
     item: ItemUnion
     addedAt: String
@@ -18,6 +19,8 @@ union ItemUnion = Book | Song
     bio: String
     isPrivate: Boolean
     favorites: [FavoriteItem]
+    favoriteOfMonthId: ID
+    favoriteOfMonthType: String
     favoriteOfMonth: ItemUnion
     followers: [User]
     following: [User]
@@ -46,9 +49,10 @@ union ItemUnion = Book | Song
     updateProfile(userId: ID!, input: UpdateProfileInput!): Profile
     addFavorite(userId: ID!, input: FavoriteItemInput!): Profile
     removeFavorite(userId: ID!, itemId: ID!): Profile
-    setFavoriteOfMonth(userId: ID!, itemId: ID!): Profile
+    setFavoriteOfMonth(userId: ID!, itemId: ID!, itemType: String!): Profile
     followUser(userId: ID!, followId: ID!): Profile
     unfollowUser(userId: ID!, unfollowId: ID!): Profile
+    deleteProfile(userId: ID!): String
   }
 `;
 

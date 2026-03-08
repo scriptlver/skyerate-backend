@@ -36,6 +36,10 @@ const profileResolver = {
       return await profileController.followUser(userId, followId);
     },
 
+    deleteProfile: async (_, { userId }) => {
+      return await profileController.deleteProfile(userId);
+    },
+
     unfollowUser: async (_, { userId, unfollowId }) => {
       return await profileController.unfollowUser(userId, unfollowId);
     },

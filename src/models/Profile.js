@@ -32,13 +32,15 @@ const ProfileSchema = new mongoose.Schema(
         item: {
           type: mongoose.Schema.Types.ObjectId,
           required: true,
-          refPath: "favorites.itemType",
+          refPath: "itemType",
         },
+
         itemType: {
           type: String,
           required: true,
           enum: ["Book", "Movie", "Series", "Anime", "Song", "FigureSkating"],
         },
+
         addedAt: {
           type: Date,
           default: Date.now,
@@ -48,7 +50,13 @@ const ProfileSchema = new mongoose.Schema(
 
     favoriteOfMonth: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Item",
+      refPath: "favoriteOfMonthType",
+      default: null,
+    },
+
+    favoriteOfMonthType: {
+      type: String,
+      enum: ["Book", "Movie", "Series", "Anime", "Song", "FigureSkating"],
       default: null,
     },
 
@@ -68,7 +76,7 @@ const ProfileSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  },
+  }
 );
 
 module.exports = mongoose.model("Profile", ProfileSchema);

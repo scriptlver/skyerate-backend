@@ -40,6 +40,19 @@ const profileResolver = {
       return await profileController.unfollowUser(userId, unfollowId);
     },
   },
+  ItemUnion: {
+    __resolveType(obj) {
+      if (obj.artist) {
+        return "Song";
+      }
+
+      if (obj.author) {
+        return "Book";
+      }
+
+      return null;
+    },
+  },
 };
 
 module.exports = profileResolver;

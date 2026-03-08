@@ -20,6 +20,10 @@ const songResolvers = require("./graphql/resolvers/songResolver");
 const ratingSchema = require("./graphql/schemas/ratingSchema");
 const ratingResolver = require("./graphql/resolvers/ratingResolver");
 
+const profileSchema = require("./graphql/schemas/profileSchema");
+const profileResolver = require("./graphql/resolvers/profileResolver");
+
+
 const app = express();
 
 connectDB();
@@ -31,8 +35,8 @@ app.use(morgan("dev"));
 
 async function startApollo() {
   const server = new ApolloServer({
-    typeDefs: [songSchema, userSchema, bookSchema, ratingSchema],
-    resolvers: [songResolvers, userResolvers, bookResolvers, ratingResolver],
+    typeDefs: [songSchema, userSchema, bookSchema, ratingSchema, profileSchema],
+    resolvers: [songResolvers, userResolvers, bookResolvers, ratingResolver, profileResolver],
   });
 
   await server.start();

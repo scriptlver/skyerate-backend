@@ -1,10 +1,13 @@
 const { gql } = require("apollo-server-express");
 
 const profileSchema = gql`
+
+union ItemUnion = Book | Song
+
   type FavoriteItem {
     id: ID!
     itemType: String!
-    item: Item
+    item: ItemUnion
     addedAt: String
   }
 
@@ -15,7 +18,7 @@ const profileSchema = gql`
     bio: String
     isPrivate: Boolean
     favorites: [FavoriteItem]
-    favoriteOfMonth: Item
+    favoriteOfMonth: ItemUnion
     followers: [User]
     following: [User]
     createdAt: String

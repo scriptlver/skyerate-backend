@@ -33,6 +33,7 @@ const SongSchema = new mongoose.Schema(
         "rap",
         "trap",
         "indie",
+        "eletrônico",
         "alternativo",
         "funk",
         "mpb",

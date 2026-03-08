@@ -23,6 +23,16 @@ const animeSchema = new mongoose.Schema(
       trim: true,
     },
 
+    releaseYear: {
+      type: Number,
+      required: true,
+    },
+
+    cover: {
+      type: String,
+      required: true,
+    },
+
     status: {
       type: String,
       enum: ["em andamento", "finalizado", "anunciado"],
@@ -59,7 +69,7 @@ const animeSchema = new mongoose.Schema(
       },
     ],
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 module.exports = mongoose.model("Anime", animeSchema);

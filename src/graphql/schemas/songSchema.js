@@ -54,6 +54,22 @@ module.exports = gql`
     externalLinks: [ExternalLinkInput]
   }
 
+  input UpdateSongInput {
+    title: String
+    artist: String
+    album: String
+    genre: [String]
+    description: String
+    coverImage: String
+    songwriters: [String]
+    producers: [String]
+    duration: DurationInput
+    releaseDate: String
+    featuring: [String]
+    externalId: String
+    externalLinks: [ExternalLinkInput]
+  }
+
   type Query {
     songs: [Song]
     song(id: ID!): Song
@@ -63,7 +79,7 @@ module.exports = gql`
 
   type Mutation {
     createSong(data: SongInput!): Song
-    updateSong(id: ID!, data: SongInput): Song
+    updateSong(id: ID!, data: UpdateSongInput!): Song
     deleteSong(id: ID!): String
   }
 `;

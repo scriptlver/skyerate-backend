@@ -32,7 +32,6 @@
     "graphql": "^16.13.1",
     "helmet": "^8.1.0",
     "jsonwebtoken": "^9.0.3",
-    "mongo": "^0.1.0",
     "mongodb": "^7.1.0",
     "mongoose": "^9.2.2",
     "morgan": "^1.10.1"

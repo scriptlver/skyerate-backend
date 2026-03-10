@@ -1,13 +1,19 @@
 const User = require("../../models/User");
 const jwt = require("jsonwebtoken");
+const roleMiddleware = require("../../middlewares/roleMiddleware");
 
 const userResolver = {
   Query: {
-    users: async () => {
+
+    users: async (_, __, context) => {
+
+      roleMiddleware(context.user, "admin");
+
       return await User.find({ deletedAt: null }).select("+password");
     },
 
     user: async (_, { id }) => {
+
       const user = await User.findById(id);
 
       if (!user) {
@@ -16,10 +22,13 @@ const userResolver = {
 
       return user;
     },
+
   },
 
   Mutation: {
+
     createUser: async (_, { name, email, cpf, password }) => {
+
       const userExists = await User.findOne({ email });
 
       if (userExists) {
@@ -37,6 +46,7 @@ const userResolver = {
     },
 
     loginUser: async (_, { email, password }) => {
+
       const user = await User.findOne({ email }).select("+password");
 
       if (!user) {
@@ -52,7 +62,7 @@ const userResolver = {
       const token = jwt.sign(
         { id: user._id, role: user.role },
         process.env.JWT_SECRET,
-        { expiresIn: "7d" },
+        { expiresIn: "7d" }
       );
 
       return {
@@ -61,7 +71,10 @@ const userResolver = {
       };
     },
 
-    deleteUser: async (_, { id }) => {
+    deleteUser: async (_, { id }, context) => {
+
+      roleMiddleware(context.user, "admin");
+
       const user = await User.findByIdAndDelete(id);
 
       if (!user) {
@@ -70,6 +83,7 @@ const userResolver = {
 
       return user;
     },
+
   },
 };
 

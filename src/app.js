@@ -5,6 +5,7 @@ const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
 const { ApolloServer } = require("apollo-server-express");
+const authMiddleware = require("./middlewares/authMiddleware");
 
 const connectDB = require("./config/db");
 
@@ -40,8 +41,35 @@ app.use(morgan("dev"));
 
 async function startApollo() {
   const server = new ApolloServer({
-    typeDefs: [songSchema, userSchema, bookSchema, ratingSchema, profileSchema, animeSchema, figureSkatingSchema],
-    resolvers: [songResolvers, userResolvers, bookResolvers, ratingResolver, profileResolver, animeResolver,figureSkatingResolver],
+    typeDefs: [
+      songSchema,
+      userSchema,
+      bookSchema,
+      ratingSchema,
+      profileSchema,
+      animeSchema,
+      figureSkatingSchema
+    ],
+
+    resolvers: [
+      songResolvers,
+      userResolvers,
+      bookResolvers,
+      ratingResolver,
+      profileResolver,
+      animeResolver,
+      figureSkatingResolver
+    ],
+
+    context: ({ req }) => {
+
+      const authHeader = req.headers.authorization;
+
+      const user = authMiddleware(authHeader);
+
+      return { user };
+
+    },
   });
 
   await server.start();

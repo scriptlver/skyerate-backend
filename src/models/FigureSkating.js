@@ -3,17 +3,23 @@ const mongoose = require("mongoose");
 const PerformanceSchema = new mongoose.Schema(
 
     {
-        performanceName: {
+
+      music: {
+        type: String,
+        trim: true,
+        },
+
+      skaters: {
       type: String,
       required: true,
       trim: true,
         },
 
-        skaters: {
-      type: String,
-      required: true,
-      trim: true,
-        },
+      artist: {
+        type: String,
+        required:true,
+        trim:true,
+      },
 
         skaterCountry: {
         type: String,
@@ -67,10 +73,6 @@ const PerformanceSchema = new mongoose.Schema(
         required: true,
         },
 
-        music: {
-        type: String,
-        trim: true,
-        },
   },
 
   {

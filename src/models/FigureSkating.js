@@ -1,80 +1,81 @@
 const mongoose = require("mongoose");
 
 const PerformanceSchema = new mongoose.Schema(
+  {
+    music: {
+      type: [String],
+      trim: true,
+    },
 
-    {
+    skaters: {
+      type: [String],
+      required: true,
+      trim: true,
+    },
 
-      music: {
-        type: String,
-        trim: true,
-        },
+    artist: {
+      type: [String],
+      required: true,
+      trim: true,
+    },
 
-      skaters: {
+    skaterCountry: {
       type: String,
       required: true,
       trim: true,
-        },
+    },
 
-      artist: {
-        type: String,
-        required:true,
-        trim:true,
-      },
+    modality: {
+      type: String,
+      required: true,
+      enum: [
+        "individual feminino",
+        "individual masculino",
+        "duplas",
+        "dança no gelo",
+      ],
+    },
 
-        skaterCountry: {
-        type: String,
-        required: true,
-        trim: true,
-        },
+    category: {
+      type: String,
+      required: true,
+      enum: ["Novato", "Junior", "Senior", "Elite"],
+    },
 
-        modality: {
-            type: String,
-            required: true,
-            enum: ["Individual feminino", "Individual masculino", "Duplas", "Dança no gelo"]
-        },
+    event: {
+      type: String,
+      required: true,
+      trim: true,
+    },
 
-        category: {
-        type: String,
-        required: true,
-        enum: ["Novato", "Junior", "Senior", "Elite"],
-        },
+    currentRanking: {
+      type: Number,
+    },
 
-        event: {
-            type: String,
-            required: true,
-            trim: true,
-        },
+    duration: {
+      type: Number, 
+    },
 
-        currentRanking: {
-            type: Number,
-        },
+    technicalScore: {
+      type: Number,
+      default: 0,
+    },
 
-        duration: {
-            type: String,
-        },
+    programComponents: {
+      type: Number,
+      default: 0,
+    },
 
-        technicalScore: {
-        type: Number,
-        default: 0,
-        },
+    deductions: {
+      type: Number,
+      default: 0,
+    },
 
-        programComponents: {
-        type: Number,
-        default: 0,
-        },
-
-        deductions: {
-        type: Number,
-        default: 0,
-        },
-
-        totalSegmentScore: {
-        type: Number,
-        required: true,
-        },
-
+    totalSegmentScore: {
+      type: Number,
+      required: true,
+    },
   },
-
   {
     timestamps: true,
   }

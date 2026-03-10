@@ -30,7 +30,7 @@ const PerformanceSchema = new mongoose.Schema(
         modality: {
             type: String,
             required: true,
-            enum: ["Individual", "Duplas", "Dança no gelo"]
+            enum: ["Individual feminino", "Individual masculino", "Duplas", "Dança no gelo"]
         },
 
         category: {

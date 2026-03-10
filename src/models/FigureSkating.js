@@ -5,18 +5,18 @@ const PerformanceSchema = new mongoose.Schema(
     {
 
       music: {
-        type: String,
+        type: [String],
         trim: true,
         },
 
       skaters: {
-      type: String,
+      type: [String],
       required: true,
       trim: true,
         },
 
       artist: {
-        type: String,
+        type: [String],
         required:true,
         trim:true,
       },
@@ -30,7 +30,7 @@ const PerformanceSchema = new mongoose.Schema(
         modality: {
             type: String,
             required: true,
-            enum: ["Individual feminino", "Individual masculino", "Duplas", "Dança no gelo"]
+            enum: ["individual feminino", "individual masculino", "duplas", "dança no gelo"]
         },
 
         category: {

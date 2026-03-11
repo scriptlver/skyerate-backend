@@ -135,7 +135,6 @@ Valor enviado:
 Para resolver esse problema, foi necessário padronizar os valores enviados para o banco de dados, garantindo que o formato utilizado no controller correspondesse exatamente ao definido no enum do modelo.
 
 ## 🚀 Como executar o projeto
-### Back-end
 ### ENV
 **Incluímos o arquivo .env no repositório para permitir o acesso direto ao nosso banco de dados.**
 ``` plaintext

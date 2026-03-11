@@ -10,7 +10,7 @@ Projeto desenvolvido para a competência *_Criar Serviços Web com REST e GraphQ
 - Lavinia Donato Ribeiro
 - Sabrina Vitória Ferreira Atanásio
 
-# 🎯 Contexto
+## 🎯 Contexto
 
 O **Skyerate** é uma plataforma digital criada para reunir avaliações de diferentes tipos de mídias em um único lugar.
 
@@ -29,7 +29,7 @@ Cada usuário possui um **perfil pessoal**, onde pode visualizar suas avaliaçõ
 
 O sistema foi desenvolvido com foco na organização das avaliações e na estruturação de dados que permita expandir futuramente funcionalidades sociais e estatísticas sobre consumo de mídia.
 
-# 💫 Tecnologias Utilizadas
+## 💫 Tecnologias Utilizadas
 
 O backend do projeto foi desenvolvido utilizando as seguintes tecnologias:
 - Node.js
@@ -41,7 +41,7 @@ O backend do projeto foi desenvolvido utilizando as seguintes tecnologias:
 - JWT (JSON Web Token)
 - Dotenv
 
-# 💜 Arquitetura do Projeto
+## 💜 Arquitetura do Projeto
 ```plaintext
 SKYERATE/
 │
@@ -67,40 +67,40 @@ SKYERATE/
 └─ README.md
 
 ```
-# 🔗 Relacionamento entre Entidades
+## 🔗 Relacionamento entre Entidades
 
 O banco de dados foi modelado considerando os seguintes relacionamentos entre as entidades principais da aplicação.
 
-# Usuário → Perfil
+### Usuário → Perfil
 
 1 Usuário possui 1 Perfil
 
 O perfil armazena informações adicionais como:
-- biografia
-- privacidade da conta
-- mídias favoritas
+- Biografia
+- Privacidade da conta
+- Mídias favoritas
 
-# Usuário → Avaliações
+### Usuário → Avaliações
 
 1 Usuário pode criar várias Avaliações
 
 Cada avaliação representa a opinião do usuário sobre uma mídia específica.
 
-# Mídia → Avaliações
+### Mídia → Avaliações
 
 1 Mídia pode receber várias Avaliações
 
 Diferentes usuários podem avaliar o mesmo conteúdo.
 
-# Perfil → Interações
+### Perfil → Interações
 
 O perfil também permite armazenar:
-- lista de favoritos
-- mídia favorita do mês
+- Lista de favoritos
+- Mídia favorita do mês
 
 Esses relacionamentos permitem organizar as interações dentro da plataforma.
 
-# 🔄 Comunicação da Aplicação
+## 🔄 Comunicação da Aplicação
 
 O backend da aplicação foi desenvolvido utilizando **Node.js**.
 
@@ -114,7 +114,7 @@ A estrutura do backend é organizada em camadas como:
 - Middlewares – autenticação e tratamento de erros
 - Configurações – conexão com banco e ajustes do sistema
 
-# ⚠️ Observação sobre validação de dados
+## ⚠️ Observação sobre validação de dados
 
 Durante o desenvolvimento, foi identificado um problema relacionado à validação de valores definidos como enum nos modelos do banco de dados.
 
@@ -160,8 +160,8 @@ http://localhost:3333/graphql
 
 Nesse endereço é possível testar todas as queries e mutations GraphQL da aplicação.
 
-# 💡 Funcionalidades Implementadas no Backend
-## 👤 Usuários
+## 💡 Funcionalidades Implementadas no Backend
+### 👤 Usuários
 
 - Cadastro de usuários
 - Login com autenticação JWT
@@ -169,7 +169,7 @@ Nesse endereço é possível testar todas as queries e mutations GraphQL da apli
 - Exclusão de usuários
 - Controle de roles (admin / user)
 
-## 📚 Mídias
+### 📚 Mídias
 
 CRUD completo para diferentes tipos de mídia:
 
@@ -180,7 +180,7 @@ CRUD completo para diferentes tipos de mídia:
 - Séries
 - Performances de Patinação Artística
 
-## ⭐ Sistema de Avaliações
+### ⭐ Sistema de Avaliações
 
 Usuários podem criar avaliações contendo:
 
@@ -194,7 +194,7 @@ Também é possível:
 - Buscar avaliações feitas por um usuário
 - Buscar avaliações de uma mídia específica
 
-## 👤 Perfis de Usuário
+### 👤 Perfis de Usuário
 
 Cada usuário possui um perfil com:
 - Nome
@@ -202,7 +202,7 @@ Cada usuário possui um perfil com:
 - Privacidade da conta
 - Lista de favoritos
 
-# 📡 Testando a API
+## 📡 Testando a API
 
 Todas as operações podem ser testadas diretamente na interface GraphQL.
 
@@ -218,7 +218,7 @@ Authorization: Bearer SEU_TOKEN
 
 O token é obtido através da mutation de login.
 
-# 📌 Próximos Passos do Projeto
+## 📌 Próximos Passos do Projeto
 
 Atualmente o projeto possui foco no desenvolvimento do backend.
 
@@ -233,7 +233,7 @@ Os próximos passos incluem o desenvolvimento do frontend da plataforma, que per
 
 O frontend será responsável por consumir a API GraphQL desenvolvida neste projeto.
 
-# 💌 Conclusão
+## 💌 Conclusão
 
 O Skyerate foi desenvolvido com o objetivo de criar uma estrutura de backend capaz de organizar avaliações de diferentes tipos de mídia em uma única plataforma.
 
@@ -248,7 +248,7 @@ Além da modelagem de relacionamentos entre usuários, perfis, mídias e avalia�
 
 Essa base permite futuras expansões da aplicação, como funcionalidades sociais, rankings de conteúdo e estatísticas de consumo de mídia.
 
-# 📚 Lições aprendidas
+## 📚 Lições aprendidas
 
 Durante o desenvolvimento do projeto, o grupo aprofundou conhecimentos em:
 
@@ -258,7 +258,7 @@ Durante o desenvolvimento do projeto, o grupo aprofundou conhecimentos em:
 - Autenticação utilizando JWT
 - Organização de backend em arquitetura modular
 
-# ⚠️ Pontos a melhorar
+## ⚠️ Pontos a melhorar
 
 Algumas melhorias futuras incluem:
 

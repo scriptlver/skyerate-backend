@@ -48,7 +48,7 @@ const figureSkatingSchema = gql`
     #Formulário que você preenche no Postman.
     #Formulário de audição pra empresa,
     #você não consegue botar a idade no nome por exemplo.
-    # A ! significa que é obrigatório preencher a informação.
+    #A ! significa que é obrigatório preencher a informação.
     input CreateFigureSkating {
         music: [String]!
         skaters: [String]!

@@ -2,6 +2,14 @@ const { gql } = require("apollo-server-express");
 
 const figureSkatingSchema = gql`
 
+    #Cookie Jar#
+
+    #O Schema é o guia. Se tentar fazer um cadastro (Mutation/Debut)
+    #e enviar um dado que não está definido aqui, ou esquecer um campo obrigatório,
+    #o GraphQL vai retornar um erro de validação.
+    #Isso garante que o banco de dados nunca receba informações erradas ou incompletas.
+
+    #Profile dos idols, lista tudo que cada performance deve ter.
     type FigureSkating {
         id: ID
         music: [String]
@@ -21,6 +29,8 @@ const figureSkatingSchema = gql`
         updatedAt: String
     }
 
+    #Define tudo que o público pode visualizar/Modo apenas leitura
+    #A empresa filtra apenas os idols para aquele pedido específico.
     type Query {
         performances: [FigureSkating]
         performance(id:ID!): FigureSkating
@@ -35,6 +45,10 @@ const figureSkatingSchema = gql`
         topRatedPerformances: [FigureSkating]
     }
 
+    #Formulário que você preenche no Postman.
+    #Formulário de audição pra empresa,
+    #você não consegue botar a idade no nome por exemplo.
+    # A ! significa que é obrigatório preencher a informação.
     input CreateFigureSkating {
         music: [String]!
         skaters: [String]!
@@ -51,6 +65,7 @@ const figureSkatingSchema = gql`
         totalSegmentScore: Float
     }
 
+    #Sem !, sem obrigatoriedade.
     input UpdateFigureSkating {
         music: [String]
         skaters: [String]
@@ -67,6 +82,8 @@ const figureSkatingSchema = gql`
         totalSegmentScore: Float
     }
 
+    #É onde as coisas mudam no banco de dados.
+    #Create = Debut, Update = Comeback, Delete = Disband.
     type Mutation {
         createFigureSkating(input: CreateFigureSkating!): FigureSkating
         updateFigureSkating(id:ID!, input: UpdateFigureSkating!): FigureSkating

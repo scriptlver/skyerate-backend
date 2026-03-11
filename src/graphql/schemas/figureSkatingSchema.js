@@ -29,7 +29,7 @@ const figureSkatingSchema = gql`
         updatedAt: String
     }
 
-    #Define tudo que o público pode visualizar/Modo apenas leitura
+    #Define tudo que o público(fandom) pode visualizar/Modo apenas leitura
     #A empresa filtra apenas os idols para aquele pedido específico.
     type Query {
         performances: [FigureSkating]

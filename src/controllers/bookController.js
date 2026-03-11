@@ -1,67 +1,152 @@
 const Book = require("../models/Book");
 
 async function createBook(input) {
-  if (input.categories) {
-    input.categories = input.categories.map(cat => cat.toLowerCase());
-  }
+  try {
+    if (input.categories) {
+      input.categories = input.categories.map((cat) => cat.toLowerCase());
+    }
 
-  return Book.create(input);
+    return await Book.create(input);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao criar livro");
+  }
 }
 
 async function getAllBooks() {
-  return Book.find().sort({ createdAt: -1 });
+  try {
+    return await Book.find().sort({ createdAt: -1 });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros");
+  }
 }
 
 async function getBooksByCategory(category) {
-  return Book.find({
-    categories: { $regex: new RegExp(category, "i") },
-  }).sort({ createdAt: -1 });
+  try {
+    return await Book.find({
+      categories: { $regex: new RegExp(category, "i") },
+    }).sort({ createdAt: -1 });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros por categoria");
+  }
 }
 
 async function getBooksByAuthor(author) {
-  return Book.find({
-    author: { $regex: new RegExp(author, "i") },
-  }).sort({ createdAt: -1 });
+  try {
+    return await Book.find({
+      author: { $regex: new RegExp(author, "i") },
+    }).sort({ createdAt: -1 });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros por autor");
+  }
 }
 
 async function getBooksByTitle(title) {
-  return Book.find({
-    title: { $regex: new RegExp(title, "i") },
-  }).sort({ createdAt: -1 });
+  try {
+    return await Book.find({
+      title: { $regex: new RegExp(title, "i") },
+    }).sort({ createdAt: -1 });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros por título");
+  }
 }
 
 async function getBookByIsbn(isbn) {
-  return Book.findOne({ isbn });
+  try {
+    const book = await Book.findOne({ isbn });
+
+    if (!book) {
+      throw new Error("Livro não encontrado");
+    }
+
+    return book;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livro pelo ISBN");
+  }
 }
 
 async function getBooksBySeries(seriesName) {
-  return Book.find({
-    seriesName: { $regex: new RegExp(seriesName, "i") },
-  }).sort({ createdAt: -1 });
+  try {
+    return await Book.find({
+      seriesName: { $regex: new RegExp(seriesName, "i") },
+    }).sort({ createdAt: -1 });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros da série");
+  }
 }
 
 async function getBooksByYear(publishYear) {
-  return Book.find({ publishYear }).sort({ createdAt: -1 });
+  try {
+    return await Book.find({ publishYear }).sort({ createdAt: -1 });
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros por ano");
+  }
 }
 
 async function getTopRatedBooks() {
-  return Book.find().sort({ "rating.average": -1 }).limit(10);
+  try {
+    return await Book.find()
+      .sort({ "rating.average": -1 })
+      .limit(10);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros mais bem avaliados");
+  }
 }
 
 async function getBookById(id) {
-  return Book.findById(id);
+  try {
+    const book = await Book.findById(id);
+
+    if (!book) {
+      throw new Error("Livro não encontrado");
+    }
+
+    return book;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livro");
+  }
 }
 
 async function updateBook(id, input) {
-  return Book.findByIdAndUpdate(id, input, {
-    new: true,
-    runValidators: true,
-  });
+  try {
+    const book = await Book.findByIdAndUpdate(id, input, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!book) {
+      throw new Error("Livro não encontrado para atualização");
+    }
+
+    return book;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao atualizar livro");
+  }
 }
 
 async function deleteBook(id) {
-  const deleted = await Book.findByIdAndDelete(id);
-  return !!deleted;
+  try {
+    const deleted = await Book.findByIdAndDelete(id);
+
+    if (!deleted) {
+      throw new Error("Livro não encontrado");
+    }
+
+    return true;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao excluir livro");
+  }
 }
 
 module.exports = {

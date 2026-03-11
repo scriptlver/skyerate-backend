@@ -9,7 +9,8 @@ const figureSkatingSchema = gql`
     #o GraphQL vai retornar um erro de validação.
     #Isso garante que o banco de dados nunca receba informações erradas ou incompletas.
 
-    #Profile dos idols, lista tudo que cada performance deve ter.
+    #Profile dos idols
+    #Lista tudo que cada performance deve ter.
     type FigureSkating {
         id: ID
         music: [String]

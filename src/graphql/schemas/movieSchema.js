@@ -64,13 +64,13 @@ module.exports = gql`
     externalId: String
   }
 
-  type Query {
+   type Query {
     movies: [Movie]
     movie(id: ID!): Movie
     moviesByGenre(genre: String!): [Movie]
   }
 
-  type Mutation {
+   type Mutation {
     createMovie(data: MovieInput!): Movie
     updateMovie(id: ID!, data: UpdateMovieInput!): Movie
     deleteMovie(id: ID!): String

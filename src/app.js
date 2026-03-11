@@ -30,6 +30,9 @@ const animeResolver = require("./graphql/resolvers/animeResolver");
 const figureSkatingSchema = require("./graphql/schemas/figureSkatingSchema");
 const figureSkatingResolver = require("./graphql/resolvers/figureSkatingResolver");
 
+const movieSchema = require("./graphql/schemas/movieSchema");
+const movieResolvers = require("./graphql/resolvers/movieResolver");
+
 const app = express();
 
 connectDB();
@@ -48,7 +51,8 @@ async function startApollo() {
       ratingSchema,
       profileSchema,
       animeSchema,
-      figureSkatingSchema
+      figureSkatingSchema,
+      movieSchema
     ],
 
     resolvers: [
@@ -58,7 +62,8 @@ async function startApollo() {
       ratingResolver,
       profileResolver,
       animeResolver,
-      figureSkatingResolver
+      figureSkatingResolver,
+      movieResolver
     ],
 
     context: ({ req }) => {

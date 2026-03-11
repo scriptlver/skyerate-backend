@@ -5,11 +5,8 @@ const Movie = require("../models/Movie");
 const movie = {
   name: "Divergente",
   director: "Neil Burger",
-  genre: "ação",
-  duration: {
-    minutes: 139,
-    seconds: 0,
-  },
+  genre:["ação"],
+  duration: 139,
   platform: "Prime Video",
   releaseYear: 2014,
   coverImage: "https://upload.wikimedia.org/wikipedia/pt/8/8e/Divergent.png",
@@ -20,12 +17,12 @@ const movie = {
   isSaga: true,
   sagaName: "Saga Divergente",
   externalLinks: [
-    {
-      platform: "prime video",
-      url: "https://www.primevideo.com/-/pt/detail/Divergente/0QBS5DTGTN1X5C8BRMZTVJSXGZ",
-    },
-  ],
-  externalId: "divirgente-2014",
+  {
+    platform: "prime video",
+    url: "https://www.primevideo.com/-/pt/detail/Divergente/0QBS5DTGTN1X5C8BRMZTVJSXGZ"
+  }
+],
+  externalId: "divergente-2014",
 };
 
 const seedMovie = async () => {

@@ -1,3 +1,4 @@
+
 const dns = require("dns");
 
 // força o Node a usar IPv4 primeiro

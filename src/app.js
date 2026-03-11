@@ -31,7 +31,7 @@ const figureSkatingSchema = require("./graphql/schemas/figureSkatingSchema");
 const figureSkatingResolver = require("./graphql/resolvers/figureSkatingResolver");
 
 const movieSchema = require("./graphql/schemas/movieSchema");
-const movieResolvers = require("./graphql/resolvers/movieResolver");
+const movieResolver = require("./graphql/resolvers/movieResolver");
 
 const app = express();
 

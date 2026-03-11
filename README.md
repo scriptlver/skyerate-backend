@@ -2,7 +2,7 @@
 
 Projeto desenvolvido para a competência *_Criar Serviços Web com REST e GraphQL_*.
 
-# 👥 Integrantes do Grupo
+## 👥 Integrantes do Grupo
 
 - Ana Luisa Rodrigues de Veras
 - Carolina Genovez Gonçalves

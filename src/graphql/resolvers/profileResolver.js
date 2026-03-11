@@ -6,6 +6,10 @@ const profileResolver = {
       return await profileController.getProfile(userId);
     },
 
+     getProfiles: async () => {
+      return await profileController.getProfiles();
+    },
+
     getFollowers: async (_, { userId }) => {
       return await profileController.getFollowers(userId);
     },

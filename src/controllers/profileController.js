@@ -20,6 +20,22 @@ async function getProfile(userId) {
   }
 }
 
+async function getProfiles() {
+  try {
+    const profiles = await Profile.find()
+      .populate("user")
+      .populate("favorites.item")
+      .populate("favoriteOfMonth")
+      .populate("followers")
+      .populate("following");
+
+    return profiles;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar perfis");
+  }
+}
+
 async function getFollowers(userId) {
   try {
     const profile = await Profile.findOne({ user: userId }).populate("followers");
@@ -214,6 +230,7 @@ async function deleteProfile(userId) {
 
 module.exports = {
   getProfile,
+  getProfiles,
   getFollowers,
   getFollowing,
   updateProfile,

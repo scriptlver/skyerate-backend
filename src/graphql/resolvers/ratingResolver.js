@@ -54,6 +54,7 @@ const ratingResolver = {
       const typeMap = {
         Book: require("../../models/Book"),
         Song: require("../../models/Song"),
+
       };
       const Model = typeMap[rating.itemType];
       if (!Model) return null;

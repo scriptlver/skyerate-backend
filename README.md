@@ -114,26 +114,6 @@ A estrutura do backend é organizada em camadas como:
 - Middlewares – autenticação e tratamento de erros
 - Configurações – conexão com banco e ajustes do sistema
 
-## ⚠️ Observação sobre validação de dados
-
-Durante o desenvolvimento, foi identificado um problema relacionado à validação de valores definidos como enum nos modelos do banco de dados.
-
-Como os valores do enum são case-sensitive, ocorreram erros quando os dados enviados pelo controller estavam em um formato diferente do definido no modelo.
-
-**Exemplo**:
-
-Enum no modelo:
-```plaintext
-"Book"
-```
-
-Valor enviado:
-```plaintext
-"book"
-```
-
-Para resolver esse problema, foi necessário padronizar os valores enviados para o banco de dados, garantindo que o formato utilizado no controller correspondesse exatamente ao definido no enum do modelo.
-
 ## 🚀 Como executar o projeto
 ### ENV
 **Incluímos o arquivo .env no repositório para permitir o acesso direto ao nosso banco de dados.**

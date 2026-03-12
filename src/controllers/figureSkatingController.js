@@ -124,7 +124,7 @@ async function getTopRatedPerformances() {
   }
 }
 
-// Atualiza o registro/Retorna o dado já atualizado.
+//Atualiza o registro/Retorna o dado já atualizado.
 async function updatePerformance(id, input) {
   try {
     const updated = await FigureSkating.findByIdAndUpdate(id, input, {

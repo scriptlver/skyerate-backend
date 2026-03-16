@@ -1,5 +1,21 @@
 const ratingController = require("../../controllers/ratingController");
 
+const Book = require("../../models/Book");
+const Song = require("../../models/Song");
+const Movie = require("../../models/Movie");
+const Anime = require("../../models/Anime");
+const Series = require("../../models/Serie");
+const FigureSkating = require("../../models/FigureSkating");
+
+const typeMap = {
+  Book,
+  Song,
+  Movie,
+  Anime,
+  Series,
+  FigureSkating,
+};
+
 const ratingResolver = {
   Query: {
     ratings: async () => {
@@ -67,26 +83,15 @@ const ratingResolver = {
 
   Rating: {
     item: async (rating) => {
-      const typeMap = {
-        Book: require("../../models/Book"),
-        Song: require("../../models/Song"),
-      };
       const Model = typeMap[rating.itemType];
-      if (!Model) return null;
-      return await Model.findById(rating.itemId);
+      return Model ? await Model.findById(rating.itemId) : null;
     },
 
-    likesCount: (rating) => {
-      return rating.likes ? rating.likes.length : 0;
-    },
+    likesCount: (rating) => rating.likes?.length || 0,
   },
 
   ItemUnion: {
-    __resolveType: (obj) => {
-      if (obj.pages !== undefined) return "Book";
-      if (obj.album !== undefined) return "Song";
-      return null;
-    },
+    __resolveType: (obj) => obj.constructor.modelName,
   },
 };
 

@@ -1,7 +1,12 @@
 const Rating = require("../models/Rating");
 const User = require("../models/User");
+
 const Book = require("../models/Book");
 const Song = require("../models/Song");
+const Movie = require("../models/Movie");
+const Anime = require("../models/Anime");
+const Series = require("../models/Serie");
+const FigureSkating = require("../models/FigureSkating");
 
 async function populateItem(rating) {
   if (!rating) return rating;
@@ -9,6 +14,10 @@ async function populateItem(rating) {
   const typeMap = {
     Book,
     Song,
+    Movie,
+    Anime,
+    Serie,
+    FigureSkating,
   };
 
   const Model = typeMap[rating.itemType];
@@ -201,29 +210,7 @@ async function likeRating(ratingId, userId) {
   try {
     const rating = await Rating.findByIdAndUpdate(
       ratingId,
-      {
-        $addToSet: { likes: userId },
-      },
-      { new: true }
-    ).populate("user");
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
-    return await populateItem(rating);
-  } catch (err) {
-    throw new Error(`Erro ao curtir avaliação: ${err.message}`);
-  }
-}
-
-async function likeRating(ratingId, userId) {
-  try {
-    const rating = await Rating.findByIdAndUpdate(
-      ratingId,
-      {
-        $addToSet: { likes: userId },
-      },
+      { $addToSet: { likes: userId } },
       { new: true }
     ).populate("user");
 
@@ -241,9 +228,7 @@ async function unlikeRating(ratingId, userId) {
   try {
     const rating = await Rating.findByIdAndUpdate(
       ratingId,
-      {
-        $pull: { likes: userId },
-      },
+      { $pull: { likes: userId } },
       { new: true }
     ).populate("user");
 
@@ -254,6 +239,32 @@ async function unlikeRating(ratingId, userId) {
     return await populateItem(rating);
   } catch (err) {
     throw new Error(`Erro ao remover curtida: ${err.message}`);
+  }
+}
+
+async function addComment(ratingId, userId, text) {
+  try {
+    const rating = await Rating.findByIdAndUpdate(
+      ratingId,
+      {
+        $push: {
+          comments: {
+            user: userId,
+            text,
+            createdAt: new Date(),
+          },
+        },
+      },
+      { new: true }
+    ).populate("user");
+
+    if (!rating) {
+      throw new Error("Avaliação não encontrada.");
+    }
+
+    return await populateItem(rating);
+  } catch (err) {
+    throw new Error(`Erro ao adicionar comentário: ${err.message}`);
   }
 }
 

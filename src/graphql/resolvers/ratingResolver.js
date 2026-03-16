@@ -47,6 +47,22 @@ const ratingResolver = {
     deleteRating: async (_, { id }) => {
       return await ratingController.deleteRating(id);
     },
+
+    likeRating: async (_, { ratingId, userId }) => {
+      return await ratingController.likeRating(ratingId, userId);
+    },
+
+    unlikeRating: async (_, { ratingId, userId }) => {
+      return await ratingController.unlikeRating(ratingId, userId);
+    },
+
+    addComment: async (_, { ratingId, userId, text }) => {
+      return await ratingController.addComment(ratingId, userId, text);
+    },
+
+    deleteComment: async (_, { ratingId, commentId }) => {
+      return await ratingController.deleteComment(ratingId, commentId);
+    },
   },
 
   Rating: {
@@ -54,11 +70,14 @@ const ratingResolver = {
       const typeMap = {
         Book: require("../../models/Book"),
         Song: require("../../models/Song"),
-
       };
       const Model = typeMap[rating.itemType];
       if (!Model) return null;
       return await Model.findById(rating.itemId);
+    },
+
+    likesCount: (rating) => {
+      return rating.likes ? rating.likes.length : 0;
     },
   },
 

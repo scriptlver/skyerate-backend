@@ -197,6 +197,88 @@ async function deleteRating(id) {
   }
 }
 
+async function likeRating(ratingId, userId) {
+  try {
+    const rating = await Rating.findByIdAndUpdate(
+      ratingId,
+      {
+        $addToSet: { likes: userId },
+      },
+      { new: true }
+    ).populate("user");
+
+    if (!rating) {
+      throw new Error("Avaliação não encontrada.");
+    }
+
+    return await populateItem(rating);
+  } catch (err) {
+    throw new Error(`Erro ao curtir avaliação: ${err.message}`);
+  }
+}
+
+async function likeRating(ratingId, userId) {
+  try {
+    const rating = await Rating.findByIdAndUpdate(
+      ratingId,
+      {
+        $addToSet: { likes: userId },
+      },
+      { new: true }
+    ).populate("user");
+
+    if (!rating) {
+      throw new Error("Avaliação não encontrada.");
+    }
+
+    return await populateItem(rating);
+  } catch (err) {
+    throw new Error(`Erro ao curtir avaliação: ${err.message}`);
+  }
+}
+
+async function unlikeRating(ratingId, userId) {
+  try {
+    const rating = await Rating.findByIdAndUpdate(
+      ratingId,
+      {
+        $pull: { likes: userId },
+      },
+      { new: true }
+    ).populate("user");
+
+    if (!rating) {
+      throw new Error("Avaliação não encontrada.");
+    }
+
+    return await populateItem(rating);
+  } catch (err) {
+    throw new Error(`Erro ao remover curtida: ${err.message}`);
+  }
+}
+
+async function deleteComment(ratingId, commentId) {
+  try {
+    const rating = await Rating.findByIdAndUpdate(
+      ratingId,
+      {
+        $pull: {
+          comments: { _id: commentId },
+        },
+      },
+      { new: true }
+    ).populate("user");
+
+    if (!rating) {
+      throw new Error("Avaliação não encontrada.");
+    }
+
+    return await populateItem(rating);
+  } catch (err) {
+    throw new Error(`Erro ao remover comentário: ${err.message}`);
+  }
+}
+
 module.exports = {
   createRating,
   updateRating,
@@ -209,4 +291,8 @@ module.exports = {
   getRecentRatings,
   getTrendingRatings,
   deleteRating,
+  likeRating,
+  unlikeRating,
+  addComment,
+  deleteComment,
 };

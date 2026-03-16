@@ -58,6 +58,35 @@ const ratingSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+
+
+    likes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    ],
+
+    comments: [
+      {
+        user: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "User",
+          required: true,
+        },
+
+        text: {
+          type: String,
+          required: true,
+          maxlength: 1000,
+        },
+
+        createdAt: {
+          type: Date,
+          default: Date.now,
+        },
+      },
+    ],
   },
   { timestamps: true }
 );

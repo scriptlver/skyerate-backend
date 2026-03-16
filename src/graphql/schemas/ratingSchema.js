@@ -3,6 +3,18 @@ const { gql } = require("apollo-server-express");
 const ratingSchema = gql`
   union ItemUnion = Book | Song
 
+  type Comment {
+    id: ID
+    user: User!
+    text: String!
+    createdAt: String
+  }
+
+  type SubRating {
+    category: String!
+    score: Float!
+  }
+
   type Rating {
     id: ID
     itemId: String
@@ -16,13 +28,14 @@ const ratingSchema = gql`
     gif: String
     isFavorite: Boolean
     isSpoiler: Boolean
+
+    likes: [User]
+    likesCount: Int
+
+    comments: [Comment]
+
     createdAt: String
     updatedAt: String
-  }
-
-  type SubRating {
-    category: String!
-    score: Float!
   }
 
   type Query {
@@ -39,6 +52,12 @@ const ratingSchema = gql`
   input SubRatingInput {
     category: String!
     score: Float!
+  }
+
+  input CreateCommentInput {
+    ratingId: ID!
+    userId: ID!
+    text: String!
   }
 
   input CreateRatingInput {
@@ -68,6 +87,11 @@ const ratingSchema = gql`
     createRating(input: CreateRatingInput!): Rating
     updateRating(id: ID!, input: UpdateRatingInput!): Rating
     deleteRating(id: ID!): String
+    
+    likeRating(ratingId: ID!, userId: ID!): Rating
+    unlikeRating(ratingId: ID!, userId: ID!): Rating
+    addComment(input: CreateCommentInput!): Rating
+    deleteComment(ratingId: ID!, commentId: ID!): Rating
   }
 `;
 

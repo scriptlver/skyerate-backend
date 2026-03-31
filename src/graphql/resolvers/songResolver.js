@@ -17,6 +17,10 @@ const songResolver = {
     songsByArtist: async (_, { artist }) => {
       return await songController.getSongsByArtist(artist);
     },
+
+    searchSongs: async (_, { query }) => {
+      return await songController.searchSongs(query);
+    },
   },
 
   Mutation: {

@@ -36,6 +36,9 @@ const movieResolver = require("./graphql/resolvers/movieResolver");
 const serieSchema = require("./graphql/schemas/serieSchema");
 const serieResolver = require("./graphql/resolvers/serieResolver");
 
+const searchSchema = require("./graphql/schemas/searchSchema");
+const searchResolver = require("./graphql/resolvers/searchResolver");
+
 const app = express();
 
 connectDB();
@@ -56,7 +59,8 @@ async function startApollo() {
       animeSchema,
       figureSkatingSchema,
       movieSchema,
-      serieSchema
+      serieSchema,
+      searchSchema,
     ],
 
     resolvers: [
@@ -68,7 +72,8 @@ async function startApollo() {
       animeResolver,
       figureSkatingResolver,
       movieResolver,
-      serieResolver
+      serieResolver,
+      searchResolver,
     ],
 
     context: ({ req }) => {

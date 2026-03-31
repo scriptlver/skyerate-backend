@@ -37,6 +37,10 @@ const bookResolver = {
     topRatedBooks: async () => {
       return await bookController.getTopRatedBooks();
     },
+
+    searchBooks: async (_, { query }) => {
+  return await bookController.searchBooks(query);
+}
   },
 
   Mutation: {

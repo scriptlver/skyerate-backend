@@ -101,6 +101,21 @@ async function deleteSong(id) {
   }
 }
 
+async function searchSongs(query) {
+  try {
+    return await Song.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { artist: { $regex: new RegExp(query, "i") } },
+        { album: { $regex: new RegExp(query, "i") } }
+      ]
+    }).limit(10);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar músicas");
+  }
+}
+
 module.exports = {
   createSong,
   getAllSongs,
@@ -109,4 +124,5 @@ module.exports = {
   getSongById,
   updateSong,
   deleteSong,
+  searchSongs,
 };

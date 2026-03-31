@@ -149,6 +149,22 @@ async function deleteBook(id) {
   }
 }
 
+async function searchBooks(query) {
+  try {
+    return await Book.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { author: { $regex: new RegExp(query, "i") } },
+        { seriesName: { $regex: new RegExp(query, "i") } },
+        { categories: { $regex: new RegExp(query, "i") } },
+      ],
+    }).limit(10);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros");
+  }
+}
+
 module.exports = {
   createBook,
   getAllBooks,
@@ -162,4 +178,5 @@ module.exports = {
   getBookById,
   updateBook,
   deleteBook,
+  searchBooks,
 };

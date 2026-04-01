@@ -4,6 +4,8 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const multer = require("multer"); // ✅ NOVO
+const path = require("path"); // ✅ NOVO
 const { ApolloServer } = require("apollo-server-express");
 const authMiddleware = require("./middlewares/authMiddleware");
 
@@ -48,6 +50,38 @@ app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(morgan("dev"));
 
+app.use("/uploads", express.static("uploads"));
+
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/");
+  },
+  filename: (req, file, cb) => {
+    const uniqueName = Date.now() + path.extname(file.originalname);
+    cb(null, uniqueName);
+  },
+});
+
+const upload = multer({ storage });
+
+
+app.post("/upload", upload.single("file"), (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "Nenhum arquivo enviado" });
+    }
+
+    const fileUrl = `http://localhost:3333/uploads/${req.file.filename}`;
+
+    res.json({ url: fileUrl });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Erro ao fazer upload" });
+  }
+});
+
+
 async function startApollo() {
   const server = new ApolloServer({
     typeDefs: [
@@ -77,13 +111,9 @@ async function startApollo() {
     ],
 
     context: ({ req }) => {
-
       const authHeader = req.headers.authorization;
-
       const user = authMiddleware(authHeader);
-
       return { user };
-
     },
   });
 
@@ -92,6 +122,7 @@ async function startApollo() {
 }
 
 startApollo();
+
 
 app.use((err, req, res, next) => {
   console.error("ERRO NO BACKEND:");

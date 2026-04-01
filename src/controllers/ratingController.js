@@ -5,7 +5,7 @@ const Book = require("../models/Book");
 const Song = require("../models/Song");
 const Movie = require("../models/Movie");
 const Anime = require("../models/Anime");
-const Series = require("../models/Serie");
+const Serie = require("../models/Serie");
 const FigureSkating = require("../models/FigureSkating");
 
 async function populateItem(rating) {

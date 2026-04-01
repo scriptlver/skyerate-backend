@@ -70,7 +70,7 @@ app.post("/upload", upload.single("file"), (req, res) => {
       return res.status(400).json({ message: "Nenhum arquivo enviado" });
     }
 
-    const fileUrl = `/uploads/${req.file.filename}`;
+    const fileUrl = `http://localhost:3333/uploads/${req.file.filename}`;
 
     res.json({ url: fileUrl });
   } catch (err) {

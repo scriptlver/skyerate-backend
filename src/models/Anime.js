@@ -64,11 +64,28 @@ const animeSchema = new mongoose.Schema(
       {
         seasonNumber: Number,
         episodes: Number,
-        cover: String,
         releaseYear: Number,
       },
     ],
+    rating: {
+      average: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+      },
+      count: {
+        type: Number,
+        default: 0,
+      },
+    },
+
+    externalId: {
+      type: String,
+      index: true,
+    },
   },
+
   { timestamps: true },
 );
 

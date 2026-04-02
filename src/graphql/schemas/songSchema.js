@@ -36,6 +36,7 @@ module.exports = gql`
     externalLinks: [ExternalLink]
     externalId: String
     description: String
+    reviews: [Review]
   }
 
   input SongInput {

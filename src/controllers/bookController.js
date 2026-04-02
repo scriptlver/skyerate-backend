@@ -2,13 +2,29 @@ const Book = require("../models/Book");
 
 async function createBook(input) {
   try {
+
+   
     if (input.categories) {
       input.categories = input.categories.map((cat) => cat.toLowerCase());
     }
 
+   
+    const existingBook = await Book.findOne({ isbn: input.isbn });
+
+    if (existingBook) {
+      throw new Error("ISBN_ALREADY_EXISTS");
+    }
+
+    
     return await Book.create(input);
+
   } catch (error) {
     console.error(error);
+
+    if (error.message === "ISBN_ALREADY_EXISTS") {
+      throw error;
+    }
+
     throw new Error("Erro ao criar livro");
   }
 }

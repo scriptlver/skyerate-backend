@@ -6,7 +6,8 @@ async function createSong(data) {
     const song = await Song.create(data);
     return song;
   } catch (error) {
-    throw new Error("Erro ao criar música");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -15,15 +16,16 @@ async function getAllSongs() {
   try {
     return await Song.find().sort({ createdAt: -1 });
   } catch (error) {
-    throw new Error("Erro ao buscar músicas");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
-// listar por gênero
+// listar por gênero (CORRIGIDO)
 async function getSongsByGenre(genre) {
   try {
     const songs = await Song.find({
-      genre: genre.toLowerCase(),
+      genre: { $in: [genre.toLowerCase()] },
     }).sort({ createdAt: -1 });
 
     if (!songs || songs.length === 0) {
@@ -32,7 +34,8 @@ async function getSongsByGenre(genre) {
 
     return songs;
   } catch (error) {
-    throw new Error("Erro ao buscar músicas por gênero");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -49,7 +52,8 @@ async function getSongsByArtist(artist) {
 
     return songs;
   } catch (error) {
-    throw new Error("Erro ao buscar músicas por artista");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -64,7 +68,8 @@ async function getSongById(id) {
 
     return song;
   } catch (error) {
-    throw new Error("Erro ao buscar música");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -82,7 +87,8 @@ async function updateSong(id, data) {
 
     return song;
   } catch (error) {
-    throw new Error("Erro ao atualizar música");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -97,7 +103,8 @@ async function deleteSong(id) {
 
     return "Música deletada com sucesso";
   } catch (error) {
-    throw new Error("Erro ao deletar música");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -107,12 +114,12 @@ async function searchSongs(query) {
       $or: [
         { title: { $regex: new RegExp(query, "i") } },
         { artist: { $regex: new RegExp(query, "i") } },
-        { album: { $regex: new RegExp(query, "i") } }
-      ]
+        { album: { $regex: new RegExp(query, "i") } },
+      ],
     }).limit(10);
   } catch (error) {
     console.error(error);
-    throw new Error("Erro ao buscar músicas");
+    throw new Error(error.message);
   }
 }
 

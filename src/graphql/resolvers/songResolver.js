@@ -2,39 +2,23 @@ const songController = require("../../controllers/songController");
 
 const songResolver = {
   Query: {
-    songs: async () => {
-      return await songController.getAllSongs();
-    },
+    songs: () => songController.getAllSongs(),
 
-    song: async (_, { id }) => {
-      return await songController.getSongById(id);
-    },
+    song: (_, { id }) => songController.getSongById(id),
 
-    songsByGenre: async (_, { genre }) => {
-      return await songController.getSongsByGenre(genre);
-    },
+    songsByGenre: (_, { genre }) => songController.getSongsByGenre(genre),
 
-    songsByArtist: async (_, { artist }) => {
-      return await songController.getSongsByArtist(artist);
-    },
+    songsByArtist: (_, { artist }) => songController.getSongsByArtist(artist),
 
-    searchSongs: async (_, { query }) => {
-      return await songController.searchSongs(query);
-    },
+    searchSongs: (_, { query }) => songController.searchSongs(query),
   },
 
   Mutation: {
-    createSong: async (_, { data }) => {
-      return await songController.createSong(data);
-    },
+    createSong: (_, { data }) => songController.createSong(data),
 
-    updateSong: async (_, { id, data }) => {
-      return await songController.updateSong(id, data);
-    },
+    updateSong: (_, { id, data }) => songController.updateSong(id, data),
 
-    deleteSong: async (_, { id }) => {
-      return await songController.deleteSong(id);
-    },
+    deleteSong: (_, { id }) => songController.deleteSong(id),
   },
 };
 

@@ -20,7 +20,6 @@ const SongSchema = new mongoose.Schema(
       trim: true,
     },
 
-    // permite múltiplos gêneros
     genre: {
       type: [String],
       required: true,
@@ -71,19 +70,16 @@ const SongSchema = new mongoose.Schema(
     featuring: {
       type: [String],
       default: [],
-      trim: true,
     },
 
     songwriters: {
       type: [String],
       required: true,
-      trim: true,
     },
 
     producers: {
       type: [String],
       required: true,
-      trim: true,
     },
 
     externalLinks: [
@@ -109,12 +105,25 @@ const SongSchema = new mongoose.Schema(
 
     description: {
       type: String,
-      required: [true, "A descrição da música é obrigatória"],
+      required: true,
       trim: true,
       maxlength: 1000,
     },
+
+    rating: {
+      average: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+      },
+      count: {
+        type: Number,
+        default: 0,
+      },
+    },
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
 module.exports = mongoose.model("Song", SongSchema);

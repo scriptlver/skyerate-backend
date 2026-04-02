@@ -4,7 +4,9 @@ const express = require("express");
 const cors = require("cors");
 const helmet = require("helmet");
 const morgan = require("morgan");
+const path = require("path"); 
 const { ApolloServer } = require("apollo-server-express");
+
 const authMiddleware = require("./middlewares/authMiddleware");
 
 const connectDB = require("./config/db");
@@ -39,14 +41,31 @@ const serieResolver = require("./graphql/resolvers/serieResolver");
 const searchSchema = require("./graphql/schemas/searchSchema");
 const searchResolver = require("./graphql/resolvers/searchResolver");
 
+const upload = require ("./middlewares/upload.js");
+
+
 const app = express();
 
 connectDB();
 
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
 app.use(cors({ origin: "http://localhost:5173" }));
 app.use(express.json());
 app.use(morgan("dev"));
+
+
+app.use("/uploads", express.static(path.join(__dirname, "../uploads")));
+
+
+app.post("/upload", upload.single("file"), (req, res) => {
+  res.json({
+    url: `/uploads/reviews/${req.file.filename}`,
+  });
+});
 
 async function startApollo() {
   const server = new ApolloServer({

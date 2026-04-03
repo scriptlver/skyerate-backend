@@ -11,7 +11,13 @@ async function createSong(data) {
     };
 
     const song = await Song.create(formattedData);
-    return song;
+
+    return {
+      ...song._doc,
+      releaseDate: song.releaseDate
+        ? song.releaseDate.toISOString()
+        : null,
+    };
   } catch (error) {
     console.error(error);
     throw new Error(error.message);
@@ -20,15 +26,17 @@ async function createSong(data) {
 
 // listar todas
 async function getAllSongs() {
-  try {
-    return await Song.find().sort({ createdAt: -1 });
-  } catch (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  const songs = await Song.find();
+
+  return songs.map((song) => ({
+    ...song._doc,
+    releaseDate: song.releaseDate
+      ? song.releaseDate.toISOString()
+      : null,
+  }));
 }
 
-// listar por gênero (CORRIGIDO)
+// listar por gênero 
 async function getSongsByGenre(genre) {
   try {
     const songs = await Song.find({
@@ -66,19 +74,18 @@ async function getSongsByArtist(artist) {
 
 // buscar por id
 async function getSongById(id) {
-  try {
-    const song = await Song.findById(id);
+  const song = await Song.findById(id);
 
-    if (!song) {
-      throw new Error("Música não encontrada");
-    }
+  if (!song) return null;
 
-    return song;
-  } catch (error) {
-    console.error(error);
-    throw new Error(error.message);
-  }
+  return {
+    ...song._doc,
+    releaseDate: song.releaseDate
+      ? song.releaseDate.toISOString()
+      : null,
+  };
 }
+
 
 // atualizar
 async function updateSong(id, data) {

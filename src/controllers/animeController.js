@@ -3,7 +3,40 @@ const Rating = require("../models/Rating");
 
 async function getAllAnimes() {
   try {
-    return await Anime.find().sort({ createdAt: -1 }).lean();
+    return await Anime.aggregate([
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "itemId",
+          as: "ratings"
+        }
+      },
+      {
+        $addFields: {
+          averageScore: { $avg: "$ratings.finalScore" },
+          ratingCount: { $size: "$ratings" }
+        }
+      },
+      {
+        $project: {
+          id: "$_id",
+          title: 1,
+          cover: 1,
+          genres: 1,
+          releaseYear: 1,
+          studio: 1,
+          status: 1,
+          synopsis: 1,
+          createdAt: 1,
+          averageScore: 1,
+          ratingCount: 1
+        }
+      },
+      {
+        $sort: { createdAt: -1 }
+      }
+    ]);
   } catch (error) {
     throw new Error("Erro ao buscar animes");
   }

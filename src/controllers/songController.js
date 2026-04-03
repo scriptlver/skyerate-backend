@@ -3,7 +3,14 @@ const Song = require("../models/Song");
 // criar música
 async function createSong(data) {
   try {
-    const song = await Song.create(data);
+    const formattedData = {
+      ...data,
+      releaseDate: data.releaseDate
+        ? new Date(data.releaseDate)
+        : null,
+    };
+
+    const song = await Song.create(formattedData);
     return song;
   } catch (error) {
     console.error(error);
@@ -76,7 +83,14 @@ async function getSongById(id) {
 // atualizar
 async function updateSong(id, data) {
   try {
-    const song = await Song.findByIdAndUpdate(id, data, {
+    const formattedData = {
+      ...data,
+      releaseDate: data.releaseDate
+        ? new Date(data.releaseDate)
+        : null,
+    };
+
+    const song = await Song.findByIdAndUpdate(id, formattedData, {
       new: true,
       runValidators: true,
     });

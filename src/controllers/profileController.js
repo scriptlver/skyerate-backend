@@ -38,7 +38,9 @@ async function getProfiles() {
 
 async function getFollowers(userId) {
   try {
-    const profile = await Profile.findOne({ user: userId }).populate("followers");
+    const profile = await Profile.findOne({ user: userId }).populate(
+      "followers",
+    );
 
     if (!profile) {
       throw new Error("Perfil não encontrado");
@@ -53,7 +55,9 @@ async function getFollowers(userId) {
 
 async function getFollowing(userId) {
   try {
-    const profile = await Profile.findOne({ user: userId }).populate("following");
+    const profile = await Profile.findOne({ user: userId }).populate(
+      "following",
+    );
 
     if (!profile) {
       throw new Error("Perfil não encontrado");
@@ -68,16 +72,19 @@ async function getFollowing(userId) {
 
 async function updateProfile(userId, input) {
   try {
-    const profile = await Profile.findOneAndUpdate(
-      { user: userId },
-      input,
-      { new: true, upsert: true, runValidators: true }
-    );
+    const profile = await Profile.findOne({ user: userId });
+    if (!profile) throw new Error("Perfil não encontrado");
 
-    return profile;
+    if (input.username !== undefined) profile.username = input.username;
+    if (input.bio !== undefined) profile.bio = input.bio;
+    if (input.profileImage !== undefined)
+      profile.profileImage = input.profileImage;
+
+    const updatedProfile = await profile.save();
+    return updatedProfile;
   } catch (error) {
-    console.error(error);
-    throw new Error("Erro ao atualizar perfil");
+    console.error("Erro ao atualizar perfil:", error);
+    throw new Error("Erro ao atualizar perfil: " + error.message);
   }
 }
 
@@ -90,7 +97,7 @@ async function addFavorite(userId, input) {
     }
 
     const alreadyFavorite = profile.favorites.some(
-      (fav) => fav.item.toString() === input.itemId
+      (fav) => fav.item.toString() === input.itemId,
     );
 
     if (alreadyFavorite) {
@@ -121,7 +128,7 @@ async function removeFavorite(userId, itemId) {
     }
 
     profile.favorites = profile.favorites.filter(
-      (fav) => fav.item.toString() !== itemId
+      (fav) => fav.item.toString() !== itemId,
     );
 
     await profile.save();
@@ -166,7 +173,7 @@ async function followUser(userId, followId) {
     }
 
     const alreadyFollowing = profile.following.some(
-      (id) => id.toString() === followId
+      (id) => id.toString() === followId,
     );
 
     if (alreadyFollowing) {
@@ -196,11 +203,11 @@ async function unfollowUser(userId, unfollowId) {
     }
 
     profile.following = profile.following.filter(
-      (id) => id.toString() !== unfollowId
+      (id) => id.toString() !== unfollowId,
     );
 
     targetProfile.followers = targetProfile.followers.filter(
-      (id) => id.toString() !== userId
+      (id) => id.toString() !== userId,
     );
 
     await profile.save();

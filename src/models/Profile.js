@@ -16,6 +16,11 @@ const ProfileSchema = new mongoose.Schema(
       trim: true,
     },
 
+    profileImage: {
+      type: String,
+      trim: true,
+    },
+
     bio: {
       type: String,
       maxlength: 300,

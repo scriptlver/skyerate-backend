@@ -14,9 +14,21 @@ const userSchema = gql`
     updatedAt: String
   }
 
+  type Profile {
+    id: ID!
+    user: User!
+    username: String
+    bio: String
+    profileImage: String
+    isPrivate: Boolean
+    createdAt: String
+    updatedAt: String
+  }
+
   type AuthPayload {
     token: String!
     user: User!
+    profile: Profile
   }
 
   type Query {
@@ -30,7 +42,7 @@ const userSchema = gql`
       email: String!
       cpf: String!
       password: String!
-    ): User
+    ): AuthPayload
 
     loginUser(
       email: String!

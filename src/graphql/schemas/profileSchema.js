@@ -46,6 +46,7 @@ type Query {
   getFollowers(userId: ID!): [User]
   getFollowing(userId: ID!): [User]
   getProfiles: [Profile]   
+ 
 }
 
 type Mutation {

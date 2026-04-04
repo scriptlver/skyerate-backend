@@ -65,6 +65,7 @@ const animeSchema = gql`
     recentAnimes(limit: Int): [Anime]
     animesByGenre(genre: String!, limit: Int): [Anime]
     animesByStudio(studio: String!, limit: Int): [Anime]
+    searchAnimes(query: String!): [Anime]
   }
 
   type Mutation {

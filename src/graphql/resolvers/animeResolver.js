@@ -2,7 +2,6 @@ const animeController = require("../../controllers/animeController");
 
 const animeResolver = {
   Query: {
-
     animes: async () => {
       return await animeController.getAllAnimes();
     },
@@ -30,10 +29,12 @@ const animeResolver = {
     mostPopularAnimes: async (_, { limit }) => {
       return await animeController.getMostPopularAnimes(limit);
     },
+    searchAnimes: async (_, { query }) => {
+  return await animeController.searchAnimes(query);
+},
   },
 
   Mutation: {
-
     createAnime: async (_, { input }) => {
       return await animeController.createAnime(input);
     },
@@ -45,12 +46,11 @@ const animeResolver = {
     deleteAnime: async (_, { id }) => {
       return await animeController.deleteAnime(id);
     },
-
   },
 
   Anime: {
-    id: (anime) => anime._id
-  }
+    id: (anime) => anime._id,
+  },
 };
 
 module.exports = animeResolver;

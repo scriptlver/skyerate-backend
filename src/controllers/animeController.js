@@ -207,6 +207,25 @@ async function getMostPopularAnimes(limit = 10) {
   }
 }
 
+async function searchAnimes(query) {
+  try {
+    return await Anime.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },         
+        { originalTitle: { $regex: new RegExp(query, "i") } }, 
+        { studio: { $regex: new RegExp(query, "i") } },        
+        { genres: { $regex: new RegExp(query, "i") } },        
+      ],
+    })
+      .limit(10) 
+      .sort({ createdAt: -1 }); 
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar animes");
+  }
+}
+
+
 module.exports = {
   getAllAnimes,
   getAnimeById,
@@ -217,5 +236,6 @@ module.exports = {
   getMostPopularAnimes,
   createAnime,
   updateAnime,
-  deleteAnime
+  deleteAnime,
+  searchAnimes,
 };

@@ -32,10 +32,17 @@ const userResolver = {
   return await updateUser(_, args);
 },
 
-    deleteUser: async (_, { id }, context) => {
-      roleMiddleware(context.user, "admin");
-      return await deleteUser(id);
-    },
+    deleteUser: async (_, { id, reason }, context) => {
+  if (!context.user) {
+    throw new Error("Não autenticado");
+  }
+
+  if (context.user.role !== "admin" && context.user.id !== id) {
+    throw new Error("Acesso negado");
+  }
+
+  return await deleteUser(id, reason);
+}
   },
 };
 

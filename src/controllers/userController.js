@@ -33,19 +33,25 @@ const loginUser = async (_, { email, password }) => {
   const user = await User.findOne({ email }).select("+password");
   if (!user) throw new Error("Usuário não encontrado");
 
+  if (user.deletedAt) {
+    throw new Error("Conta desativada");
+  }
+
   const isMatch = await user.comparePassword(password);
   if (!isMatch) throw new Error("Senha inválida");
 
   const token = jwt.sign(
     { id: user._id, role: user.role },
     process.env.JWT_SECRET,
-    { expiresIn: "7d" },
+    { expiresIn: "7d" }
   );
 
   const profile = await Profile.findOne({ user: user._id }).populate("user");
 
   return { token, user, profile };
 };
+
+
 
 const getUserById = async (id) => {
   const user = await User.findById(id);

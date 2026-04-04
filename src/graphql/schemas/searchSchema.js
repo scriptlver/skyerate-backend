@@ -5,6 +5,8 @@ const searchSchema = gql`
     books: [Book]
     songs: [Song]
     animes: [Anime]
+    performances: [FigureSkating]
+
   }
 
   extend type Query {

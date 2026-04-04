@@ -29,10 +29,22 @@ async function search(query) {
       ],
     }).limit(5);
 
+    const performances = await FigureSkating.find({
+      $or: [
+        { skaters: { $regex: new RegExp(query, "i") } },
+        { music: { $regex: new RegExp(query, "i") } },
+        { artist: { $regex: new RegExp(query, "i") } },
+        { modality: { $regex: new RegExp(query, "i") } },
+        { category: { $regex: new RegExp(query, "i") } },
+        { event: { $regex: new RegExp(query, "i") } },
+      ],
+    }).limit(5);
+
     return {
       books,
       songs,
       animes,
+      performances,
     };
   } catch (error) {
     console.error(error);

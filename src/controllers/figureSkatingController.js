@@ -149,6 +149,29 @@ async function deletePerformance(id) {
   }
 }
 
+async function searchPerformances(_, { query }) {
+  try {
+   
+    const regex = new RegExp(query, "i");
+
+    const performances = await FigureSkating.find({
+      $or: [
+        { skaters: { $elemMatch: { $regex: regex } } },
+        { music: { $elemMatch: { $regex: regex } } },
+        { artist: { $elemMatch: { $regex: regex } } },
+        { modality: { $regex: regex } },
+        { category: { $regex: regex } },
+      ],
+    }).sort({ createdAt: -1 });
+
+    return performances;
+  } catch (err) {
+    console.error("Erro no searchPerformances:", err);
+    return [];
+  }
+}
+
+
 //Exportação de todas as funções
 //para serem usadas nos Resolvers do GraphQL.
 module.exports = {
@@ -166,4 +189,5 @@ module.exports = {
   getTopRatedPerformances,
   updatePerformance,
   deletePerformance,
+  searchPerformances,
 };

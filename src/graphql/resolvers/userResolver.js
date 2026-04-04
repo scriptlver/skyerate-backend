@@ -3,6 +3,7 @@ const {
   createUser,
   loginUser,
   getUserById,
+  updateUser,
   deleteUser,
 } = require("../../controllers/userController");
 const User = require("../../models/User");
@@ -27,6 +28,9 @@ const userResolver = {
     loginUser: async (_, args) => {
       return await loginUser(_, args);
     },
+    updateUser: async (_, args) => {
+  return await updateUser(_, args);
+},
 
     deleteUser: async (_, { id }, context) => {
       roleMiddleware(context.user, "admin");

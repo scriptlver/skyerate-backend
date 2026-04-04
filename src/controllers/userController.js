@@ -63,9 +63,41 @@ const deleteUser = async (id, reason) => {
   return user;
 };
 
+const updateUser = async (_, { id, input }) => {
+  const user = await User.findById(id).select("+password");
+  if (!user) throw new Error("Usuário não encontrado");
+
+  if (input.name) {
+    user.name = input.name;
+  }
+
+  if (input.email) {
+    user.email = input.email;
+  }
+
+  if (input.newPassword) {
+    if (!input.currentPassword) {
+      throw new Error("Informe a senha atual");
+    }
+
+    const isMatch = await user.comparePassword(input.currentPassword);
+
+    if (!isMatch) {
+      throw new Error("Senha atual incorreta");
+    }
+
+    user.password = input.newPassword;
+  }
+
+  await user.save();
+
+  return user;
+};
+
 module.exports = {
   createUser,
   loginUser,
   getUserById,
+  updateUser,
   deleteUser,
 };

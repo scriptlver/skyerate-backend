@@ -25,6 +25,13 @@ const userSchema = gql`
     updatedAt: String
   }
 
+  input UpdateUserInput {
+    name: String
+    email: String
+    currentPassword: String
+    newPassword: String
+  }
+
   type AuthPayload {
     token: String!
     user: User!
@@ -48,6 +55,11 @@ const userSchema = gql`
       email: String!
       password: String!
     ): AuthPayload
+
+    updateUser(
+      id: ID!
+      input: UpdateUserInput!
+    ): User
 
     deleteUser(
       id: ID!

@@ -86,7 +86,7 @@ const SongSchema = new mongoose.Schema(
       {
         platform: {
           type: String,
-          enum: ["spotify", "youtube", "applemusic"],
+          enum: ["spotify", "youtube", "apple", "amazon", "deezer", "outro"],
           lowercase: true,
         },
         url: {

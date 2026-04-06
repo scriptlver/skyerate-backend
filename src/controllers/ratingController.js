@@ -293,6 +293,6 @@ module.exports = {
   deleteRating,
   likeRating,
   unlikeRating,
-  addComment,
+  // addComment,
   deleteComment,
 };

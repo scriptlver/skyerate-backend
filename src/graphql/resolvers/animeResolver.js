@@ -30,8 +30,12 @@ const animeResolver = {
       return await animeController.getMostPopularAnimes(limit);
     },
     searchAnimes: async (_, { query }) => {
-  return await animeController.searchAnimes(query);
-},
+      return await animeController.searchAnimes(query);
+    },
+
+    animesByIds: async (_, { ids }) => {
+      return await animeController.getAnimessByIds(ids);
+    },
   },
 
   Mutation: {

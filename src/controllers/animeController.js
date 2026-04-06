@@ -41,6 +41,15 @@ async function getAllAnimes() {
     throw new Error("Erro ao buscar animes");
   }
 }
+async function getAnimeCover(itemId) {
+  const anime = await Anime.findById(itemId).select("cover title"); 
+  if (!anime) return null;
+  return {
+    id: anime._id,
+    title: anime.title,
+    cover: anime.cover,
+  };
+}
 
 async function getAnimeById(id) {
   try {

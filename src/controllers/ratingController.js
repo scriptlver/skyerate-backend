@@ -179,10 +179,10 @@ module.exports = {
   getRatingById,
   deleteRating,
 
-  likeRating,
-  unlikeRating,
+  // likeRating,
+  //unlikeRating,
   // addComment,
-  deleteComment,
+  //deleteComment,
 
 
 };

@@ -40,7 +40,10 @@ const bookResolver = {
 
     searchBooks: async (_, { query }) => {
   return await bookController.searchBooks(query);
-}
+},
+booksByIds: async (_, { ids }) => {
+      return await bookController.getBooksByIds(ids);
+    },
   },
 
   Mutation: {

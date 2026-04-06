@@ -181,6 +181,17 @@ async function searchBooks(query) {
   }
 }
 
+async function getBooksByIds(ids) {
+  try {
+
+    const books = await Book.find({ _id: { $in: ids } });
+    return books;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros por IDs");
+  }
+}
+
 module.exports = {
   createBook,
   getAllBooks,
@@ -195,4 +206,5 @@ module.exports = {
   updateBook,
   deleteBook,
   searchBooks,
+  getBooksByIds,
 };

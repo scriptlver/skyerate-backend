@@ -32,6 +32,7 @@ const bookSchema = gql`
     topRatedBooks: [Book]
 
     searchBooks(query: String!): [Book]
+    booksByIds(ids: [ID!]!): [Book]
   }
 
   input CreateBookInput {

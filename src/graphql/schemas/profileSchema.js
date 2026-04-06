@@ -17,6 +17,7 @@ type Profile {
   user: User!
   username: String
   bio: String
+  profileImage: String
   isPrivate: Boolean
   favorites: [FavoriteItem]
   favoriteOfMonthId: ID
@@ -37,6 +38,7 @@ input UpdateProfileInput {
   username: String
   bio: String
   isPrivate: Boolean
+  profileImage: String
 }
 
 type Query {
@@ -44,6 +46,7 @@ type Query {
   getFollowers(userId: ID!): [User]
   getFollowing(userId: ID!): [User]
   getProfiles: [Profile]   
+ 
 }
 
 type Mutation {

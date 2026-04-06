@@ -2,13 +2,29 @@ const Book = require("../models/Book");
 
 async function createBook(input) {
   try {
+
+   
     if (input.categories) {
       input.categories = input.categories.map((cat) => cat.toLowerCase());
     }
 
+   
+    const existingBook = await Book.findOne({ isbn: input.isbn });
+
+    if (existingBook) {
+      throw new Error("ISBN_ALREADY_EXISTS");
+    }
+
+    
     return await Book.create(input);
+
   } catch (error) {
     console.error(error);
+
+    if (error.message === "ISBN_ALREADY_EXISTS") {
+      throw error;
+    }
+
     throw new Error("Erro ao criar livro");
   }
 }
@@ -149,6 +165,33 @@ async function deleteBook(id) {
   }
 }
 
+async function searchBooks(query) {
+  try {
+    return await Book.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { author: { $regex: new RegExp(query, "i") } },
+        { seriesName: { $regex: new RegExp(query, "i") } },
+        { categories: { $regex: new RegExp(query, "i") } },
+      ],
+    }).limit(10);
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros");
+  }
+}
+
+async function getBooksByIds(ids) {
+  try {
+
+    const books = await Book.find({ _id: { $in: ids } });
+    return books;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar livros por IDs");
+  }
+}
+
 module.exports = {
   createBook,
   getAllBooks,
@@ -162,4 +205,6 @@ module.exports = {
   getBookById,
   updateBook,
   deleteBook,
+  searchBooks,
+  getBooksByIds,
 };

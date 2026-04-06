@@ -30,6 +30,9 @@ const bookSchema = gql`
     booksBySeries(seriesName: String!): [Book]
     booksByYear(publishYear: Int!): [Book]
     topRatedBooks: [Book]
+
+    searchBooks(query: String!): [Book]
+    booksByIds(ids: [ID!]!): [Book]
   }
 
   input CreateBookInput {

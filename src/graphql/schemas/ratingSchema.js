@@ -1,7 +1,7 @@
 const { gql } = require("apollo-server-express");
 
 const ratingSchema = gql`
-  union ItemUnion = Book | Song
+  union ItemUnion = Book | Song | Movie | Anime | Serie | FigureSkating
 
   type Comment {
     id: ID
@@ -87,9 +87,10 @@ const ratingSchema = gql`
     createRating(input: CreateRatingInput!): Rating
     updateRating(id: ID!, input: UpdateRatingInput!): Rating
     deleteRating(id: ID!): String
-    
+
     likeRating(ratingId: ID!, userId: ID!): Rating
     unlikeRating(ratingId: ID!, userId: ID!): Rating
+
     addComment(input: CreateCommentInput!): Rating
     deleteComment(ratingId: ID!, commentId: ID!): Rating
   }

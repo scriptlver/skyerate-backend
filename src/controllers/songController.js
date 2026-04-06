@@ -3,27 +3,44 @@ const Song = require("../models/Song");
 // criar música
 async function createSong(data) {
   try {
-    const song = await Song.create(data);
-    return song;
+    const formattedData = {
+      ...data,
+      releaseDate: data.releaseDate
+        ? new Date(data.releaseDate)
+        : null,
+    };
+
+    const song = await Song.create(formattedData);
+
+    return {
+      ...song._doc,
+      releaseDate: song.releaseDate
+        ? song.releaseDate.toISOString()
+        : null,
+    };
   } catch (error) {
-    throw new Error("Erro ao criar música");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
 // listar todas
 async function getAllSongs() {
-  try {
-    return await Song.find().sort({ createdAt: -1 });
-  } catch (error) {
-    throw new Error("Erro ao buscar músicas");
-  }
+  const songs = await Song.find();
+
+  return songs.map((song) => ({
+    ...song._doc,
+    releaseDate: song.releaseDate
+      ? song.releaseDate.toISOString()
+      : null,
+  }));
 }
 
-// listar por gênero
+// listar por gênero 
 async function getSongsByGenre(genre) {
   try {
     const songs = await Song.find({
-      genre: genre.toLowerCase(),
+      genre: { $in: [genre.toLowerCase()] },
     }).sort({ createdAt: -1 });
 
     if (!songs || songs.length === 0) {
@@ -32,7 +49,8 @@ async function getSongsByGenre(genre) {
 
     return songs;
   } catch (error) {
-    throw new Error("Erro ao buscar músicas por gênero");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -49,29 +67,37 @@ async function getSongsByArtist(artist) {
 
     return songs;
   } catch (error) {
-    throw new Error("Erro ao buscar músicas por artista");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
 // buscar por id
 async function getSongById(id) {
-  try {
-    const song = await Song.findById(id);
+  const song = await Song.findById(id);
 
-    if (!song) {
-      throw new Error("Música não encontrada");
-    }
+  if (!song) return null;
 
-    return song;
-  } catch (error) {
-    throw new Error("Erro ao buscar música");
-  }
+  return {
+    ...song._doc,
+    releaseDate: song.releaseDate
+      ? song.releaseDate.toISOString()
+      : null,
+  };
 }
+
 
 // atualizar
 async function updateSong(id, data) {
   try {
-    const song = await Song.findByIdAndUpdate(id, data, {
+    const formattedData = {
+      ...data,
+      releaseDate: data.releaseDate
+        ? new Date(data.releaseDate)
+        : null,
+    };
+
+    const song = await Song.findByIdAndUpdate(id, formattedData, {
       new: true,
       runValidators: true,
     });
@@ -82,7 +108,8 @@ async function updateSong(id, data) {
 
     return song;
   } catch (error) {
-    throw new Error("Erro ao atualizar música");
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -97,7 +124,23 @@ async function deleteSong(id) {
 
     return "Música deletada com sucesso";
   } catch (error) {
-    throw new Error("Erro ao deletar música");
+    console.error(error);
+    throw new Error(error.message);
+  }
+}
+
+async function searchSongs(query) {
+  try {
+    return await Song.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { artist: { $regex: new RegExp(query, "i") } },
+        { album: { $regex: new RegExp(query, "i") } },
+      ],
+    }).limit(10);
+  } catch (error) {
+    console.error(error);
+    throw new Error(error.message);
   }
 }
 
@@ -109,4 +152,5 @@ module.exports = {
   getSongById,
   updateSong,
   deleteSong,
+  searchSongs,
 };

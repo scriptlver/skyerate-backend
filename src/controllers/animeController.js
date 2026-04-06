@@ -3,7 +3,40 @@ const Rating = require("../models/Rating");
 
 async function getAllAnimes() {
   try {
-    return await Anime.find().sort({ createdAt: -1 }).lean();
+    return await Anime.aggregate([
+      {
+        $lookup: {
+          from: "ratings",
+          localField: "_id",
+          foreignField: "itemId",
+          as: "ratings"
+        }
+      },
+      {
+        $addFields: {
+          averageScore: { $avg: "$ratings.finalScore" },
+          ratingCount: { $size: "$ratings" }
+        }
+      },
+      {
+        $project: {
+          id: "$_id",
+          title: 1,
+          cover: 1,
+          genres: 1,
+          releaseYear: 1,
+          studio: 1,
+          status: 1,
+          synopsis: 1,
+          createdAt: 1,
+          averageScore: 1,
+          ratingCount: 1
+        }
+      },
+      {
+        $sort: { createdAt: -1 }
+      }
+    ]);
   } catch (error) {
     throw new Error("Erro ao buscar animes");
   }
@@ -174,6 +207,39 @@ async function getMostPopularAnimes(limit = 10) {
   }
 }
 
+async function searchAnimes(query) {
+  try {
+    return await Anime.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },         
+        { originalTitle: { $regex: new RegExp(query, "i") } }, 
+        { studio: { $regex: new RegExp(query, "i") } },        
+        { genres: { $regex: new RegExp(query, "i") } },        
+      ],
+    })
+      .limit(10) 
+      .sort({ createdAt: -1 }); 
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar animes");
+  }
+}
+
+async function getAnimessByIds(ids) {
+  try {
+
+    const animes = await Anime.find({ _id: { $in: ids } });
+    return animes;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar animes por IDs");
+  }
+}
+
+
+
+
+
 module.exports = {
   getAllAnimes,
   getAnimeById,
@@ -184,5 +250,7 @@ module.exports = {
   getMostPopularAnimes,
   createAnime,
   updateAnime,
-  deleteAnime
+  deleteAnime,
+  searchAnimes,
+  getAnimessByIds,
 };

@@ -1,23 +1,52 @@
 const Rating = require("../models/Rating");
 const User = require("../models/User");
+
 const Book = require("../models/Book");
 const Song = require("../models/Song");
+const Movie = require("../models/Movie");
+const Anime = require("../models/Anime");
+const Serie = require("../models/Serie");
+const FigureSkating = require("../models/FigureSkating");
+
+const typeMap = { Book, Song, Movie, Anime, Serie, FigureSkating };
 
 async function populateItem(rating) {
   if (!rating) return rating;
 
-  const typeMap = {
-    Book,
-    Song,
-  };
 
   const Model = typeMap[rating.itemType];
-  if (!Model) return rating;
+  if (!Model) {
+    rating.item = null;
+    return rating;
+  }
 
-  const item = await Model.findById(rating.itemId);
-  rating.item = item;
+  try {
+    const item = await Model.findById(rating.itemId);
 
-  return rating;
+    if (!item) {
+      // fallback com id e type, evita erro GraphQL
+      rating.item = {
+        id: rating.itemId,
+        title: "Desconhecido",
+        cover: null,
+        __typename: rating.itemType,
+      };
+      return rating;
+    }
+
+    const obj = item.toObject();
+    rating.item = { ...obj, id: obj._id, __typename: rating.itemType };
+    return rating;
+  } catch (err) {
+    // fallback se deu erro no find
+    rating.item = {
+      id: rating.itemId,
+      title: "Desconhecido",
+      cover: null,
+      __typename: rating.itemType,
+    };
+    return rating;
+  }
 }
 
 function calculateFinalScore(data) {
@@ -25,11 +54,9 @@ function calculateFinalScore(data) {
     const total = data.subRatings.reduce((acc, r) => acc + r.score, 0);
     return Math.round((total / data.subRatings.length) * 100) / 100;
   }
-
   if (data.finalScore !== undefined && data.finalScore !== null) {
     return Math.round(data.finalScore * 100) / 100;
   }
-
   return null;
 }
 
@@ -50,9 +77,7 @@ async function createRating(data) {
     }
 
     data.finalScore = calculateFinalScore(data);
-
     const rating = await Rating.create(data);
-
     await rating.populate("user");
 
     return await populateItem(rating);
@@ -64,10 +89,7 @@ async function createRating(data) {
 async function updateRating(id, data) {
   try {
     const rating = await Rating.findById(id);
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
+    if (!rating) throw new Error("Avaliação não encontrada.");
 
     data.finalScore = calculateFinalScore(data);
 
@@ -84,10 +106,7 @@ async function updateRating(id, data) {
 
 async function getAllRatings() {
   try {
-    const ratings = await Rating.find()
-      .sort({ createdAt: -1 })
-      .populate("user");
-
+    const ratings = await Rating.find().sort({ createdAt: -1 }).populate("user");
     return await Promise.all(ratings.map(populateItem));
   } catch (err) {
     throw new Error("Erro ao buscar avaliações.");
@@ -133,149 +152,20 @@ async function getRatingsByType(itemType) {
 async function getRatingById(id) {
   try {
     const rating = await Rating.findById(id).populate("user");
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
+    if (!rating) throw new Error("Avaliação não encontrada.");
     return await populateItem(rating);
   } catch (err) {
     throw new Error(`Erro ao buscar avaliação: ${err.message}`);
   }
 }
 
-async function getTopRatings(limit = 10) {
-  try {
-    const ratings = await Rating.find()
-      .sort({ finalScore: -1 })
-      .limit(limit)
-      .populate("user");
-
-    return await Promise.all(ratings.map(populateItem));
-  } catch (err) {
-    throw new Error("Erro ao buscar melhores avaliações.");
-  }
-}
-
-async function getRecentRatings(limit = 10) {
-  try {
-    const ratings = await Rating.find()
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .populate("user");
-
-    return await Promise.all(ratings.map(populateItem));
-  } catch (err) {
-    throw new Error("Erro ao buscar avaliações recentes.");
-  }
-}
-
-async function getTrendingRatings(limit = 10) {
-  try {
-    const ratings = await Rating.find()
-      .sort({ finalScore: -1, createdAt: -1 })
-      .limit(limit)
-      .populate("user");
-
-    return await Promise.all(ratings.map(populateItem));
-  } catch (err) {
-    throw new Error("Erro ao buscar avaliações em destaque.");
-  }
-}
-
 async function deleteRating(id) {
   try {
     const deleted = await Rating.findByIdAndDelete(id);
-
-    if (!deleted) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
+    if (!deleted) throw new Error("Avaliação não encontrada.");
     return true;
   } catch (err) {
     throw new Error(`Erro ao deletar avaliação: ${err.message}`);
-  }
-}
-
-async function likeRating(ratingId, userId) {
-  try {
-    const rating = await Rating.findByIdAndUpdate(
-      ratingId,
-      {
-        $addToSet: { likes: userId },
-      },
-      { new: true }
-    ).populate("user");
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
-    return await populateItem(rating);
-  } catch (err) {
-    throw new Error(`Erro ao curtir avaliação: ${err.message}`);
-  }
-}
-
-async function likeRating(ratingId, userId) {
-  try {
-    const rating = await Rating.findByIdAndUpdate(
-      ratingId,
-      {
-        $addToSet: { likes: userId },
-      },
-      { new: true }
-    ).populate("user");
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
-    return await populateItem(rating);
-  } catch (err) {
-    throw new Error(`Erro ao curtir avaliação: ${err.message}`);
-  }
-}
-
-async function unlikeRating(ratingId, userId) {
-  try {
-    const rating = await Rating.findByIdAndUpdate(
-      ratingId,
-      {
-        $pull: { likes: userId },
-      },
-      { new: true }
-    ).populate("user");
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
-    return await populateItem(rating);
-  } catch (err) {
-    throw new Error(`Erro ao remover curtida: ${err.message}`);
-  }
-}
-
-async function deleteComment(ratingId, commentId) {
-  try {
-    const rating = await Rating.findByIdAndUpdate(
-      ratingId,
-      {
-        $pull: {
-          comments: { _id: commentId },
-        },
-      },
-      { new: true }
-    ).populate("user");
-
-    if (!rating) {
-      throw new Error("Avaliação não encontrada.");
-    }
-
-    return await populateItem(rating);
-  } catch (err) {
-    throw new Error(`Erro ao remover comentário: ${err.message}`);
   }
 }
 
@@ -287,12 +177,12 @@ module.exports = {
   getRatingsByItem,
   getRatingsByType,
   getRatingById,
-  getTopRatings,
-  getRecentRatings,
-  getTrendingRatings,
   deleteRating,
+
   likeRating,
   unlikeRating,
   // addComment,
   deleteComment,
+
+
 };

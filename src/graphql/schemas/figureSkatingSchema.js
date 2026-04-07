@@ -45,6 +45,7 @@ const figureSkatingSchema = gql`
         performanceByArtist(artist:String!): FigureSkating
         topRatedPerformances: [FigureSkating]
         searchPerformances(query: String!): [FigureSkating]
+        performancesByIds(ids: [ID!]!): [FigureSkating]
     }
 
     #Formulário que você preenche no Postman.

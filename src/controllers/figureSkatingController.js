@@ -171,6 +171,17 @@ async function searchPerformances(_, { query }) {
   }
 }
 
+async function getPerformancesByIds(ids) {
+  try {
+
+    const perfomances = await FigureSkating.find({ _id: { $in: ids } });
+    return perfomances;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar perfomances por IDs");
+  }
+}
+
 
 //Exportação de todas as funções
 //para serem usadas nos Resolvers do GraphQL.
@@ -190,4 +201,5 @@ module.exports = {
   updatePerformance,
   deletePerformance,
   searchPerformances,
+  getPerformancesByIds,
 };

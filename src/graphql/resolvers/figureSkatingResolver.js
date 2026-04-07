@@ -60,6 +60,9 @@ const figureSkatingResolver = {
     searchPerformances: async (_, { query }) => {
       return await skatingController.searchPerformances(query);
     },
+    performancesByIds: async (_, { ids }) => {
+          return await skatingController.getPerformancesByIds(ids);
+        },
   },
 
   Mutation: {

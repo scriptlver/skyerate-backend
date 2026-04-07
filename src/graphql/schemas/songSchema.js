@@ -76,6 +76,7 @@ module.exports = gql`
     songsByGenre(genre: String!): [Song]
     songsByArtist(artist: String!): [Song]
     searchSongs(query: String!): [Song]
+    songsByIds(ids: [ID!]!): [Song]
   }
 
   type Mutation {

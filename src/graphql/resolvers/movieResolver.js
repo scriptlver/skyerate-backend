@@ -13,6 +13,9 @@ const movieResolver = {
     moviesByGenre: async (_, { genre }) => {
       return await movieController.getMovieByGenre(genre);
     },
+    moviesByIds: async (_, { ids }) => {
+              return await movieResolver.getMoviesByIds(ids);
+            },
   },
 
   Mutation: {

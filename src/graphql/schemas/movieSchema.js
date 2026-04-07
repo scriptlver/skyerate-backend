@@ -68,6 +68,7 @@ module.exports = gql`
     movies: [Movie]
     movie(id: ID!): Movie
     moviesByGenre(genre: String!): [Movie]
+    moviesByIds(ids: [ID!]!): [Movie]
   }
 
    type Mutation {

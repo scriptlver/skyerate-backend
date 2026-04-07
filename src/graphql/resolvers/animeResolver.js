@@ -34,7 +34,7 @@ const animeResolver = {
     },
 
     animesByIds: async (_, { ids }) => {
-      return await animeController.getAnimessByIds(ids);
+      return await animeController.getAnimesByIds(ids);
     },
   },
 

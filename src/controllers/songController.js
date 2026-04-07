@@ -143,6 +143,16 @@ async function searchSongs(query) {
     throw new Error(error.message);
   }
 }
+async function getSongsByIds(ids) {
+  try {
+
+    const songs = await Song.find({ _id: { $in: ids } });
+    return songs;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar músicas por IDs");
+  }
+}
 
 module.exports = {
   createSong,
@@ -153,4 +163,5 @@ module.exports = {
   updateSong,
   deleteSong,
   searchSongs,
+  getSongsByIds,
 };

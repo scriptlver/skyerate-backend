@@ -88,6 +88,17 @@ async function deleteMovie(id) {
   }
 }
 
+async function getMoviesByIds(ids) {
+  try {
+
+    const movies = await Movie.find({ _id: { $in: ids } });
+    return movies;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Erro ao buscar filmes por IDs");
+  }
+}
+
 module.exports = {
   createMovie,
   getAllMovie,
@@ -95,4 +106,5 @@ module.exports = {
   getMovieById,
   updateMovie,
   deleteMovie,
+  getMoviesByIds,
 };

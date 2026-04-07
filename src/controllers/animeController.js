@@ -9,14 +9,14 @@ async function getAllAnimes() {
           from: "ratings",
           localField: "_id",
           foreignField: "itemId",
-          as: "ratings"
-        }
+          as: "ratings",
+        },
       },
       {
         $addFields: {
           averageScore: { $avg: "$ratings.finalScore" },
-          ratingCount: { $size: "$ratings" }
-        }
+          ratingCount: { $size: "$ratings" },
+        },
       },
       {
         $project: {
@@ -30,12 +30,12 @@ async function getAllAnimes() {
           synopsis: 1,
           createdAt: 1,
           averageScore: 1,
-          ratingCount: 1
-        }
+          ratingCount: 1,
+        },
       },
       {
-        $sort: { createdAt: -1 }
-      }
+        $sort: { createdAt: -1 },
+      },
     ]);
   } catch (error) {
     throw new Error("Erro ao buscar animes");
@@ -58,10 +58,7 @@ async function getAnimeById(id) {
 
 async function getRecentAnimes(limit = 10) {
   try {
-    return await Anime.find()
-      .sort({ createdAt: -1 })
-      .limit(limit)
-      .lean();
+    return await Anime.find().sort({ createdAt: -1 }).limit(limit).lean();
   } catch (error) {
     throw new Error("Erro ao buscar animes recentes");
   }
@@ -70,7 +67,7 @@ async function getRecentAnimes(limit = 10) {
 async function getAnimesByGenre(genre, limit = 10) {
   try {
     return await Anime.find({
-      genres: { $regex: new RegExp(genre, "i") }
+      genres: { $regex: new RegExp(genre, "i") },
     })
       .limit(limit)
       .lean();
@@ -82,7 +79,7 @@ async function getAnimesByGenre(genre, limit = 10) {
 async function getAnimesByStudio(studio, limit = 10) {
   try {
     return await Anime.find({
-      studio: { $regex: new RegExp(studio, "i") }
+      studio: { $regex: new RegExp(studio, "i") },
     })
       .limit(limit)
       .lean();
@@ -104,7 +101,7 @@ async function updateAnime(id, input) {
   try {
     const anime = await Anime.findByIdAndUpdate(id, input, {
       new: true,
-      runValidators: true
+      runValidators: true,
     });
 
     if (!anime) {
@@ -139,8 +136,8 @@ async function getTopRatedAnimes(limit = 10) {
         $group: {
           _id: "$itemId",
           averageScore: { $avg: "$finalScore" },
-          ratingCount: { $sum: 1 }
-        }
+          ratingCount: { $sum: 1 },
+        },
       },
       { $sort: { averageScore: -1 } },
       { $limit: limit },
@@ -149,8 +146,8 @@ async function getTopRatedAnimes(limit = 10) {
           from: "animes",
           localField: "_id",
           foreignField: "_id",
-          as: "anime"
-        }
+          as: "anime",
+        },
       },
       { $unwind: "$anime" },
       {
@@ -160,9 +157,9 @@ async function getTopRatedAnimes(limit = 10) {
           cover: "$anime.cover",
           releaseYear: "$anime.releaseYear",
           averageScore: 1,
-          ratingCount: 1
-        }
-      }
+          ratingCount: 1,
+        },
+      },
     ]);
   } catch (error) {
     throw new Error("Erro ao buscar animes mais bem avaliados");
@@ -177,8 +174,8 @@ async function getMostPopularAnimes(limit = 10) {
         $group: {
           _id: "$itemId",
           ratingCount: { $sum: 1 },
-          averageScore: { $avg: "$finalScore" }
-        }
+          averageScore: { $avg: "$finalScore" },
+        },
       },
       { $sort: { ratingCount: -1 } },
       { $limit: limit },
@@ -187,8 +184,8 @@ async function getMostPopularAnimes(limit = 10) {
           from: "animes",
           localField: "_id",
           foreignField: "_id",
-          as: "anime"
-        }
+          as: "anime",
+        },
       },
       { $unwind: "$anime" },
       {
@@ -198,9 +195,9 @@ async function getMostPopularAnimes(limit = 10) {
           cover: "$anime.cover",
           releaseYear: "$anime.releaseYear",
           ratingCount: 1,
-          averageScore: 1
-        }
-      }
+          averageScore: 1,
+        },
+      },
     ]);
   } catch (error) {
     throw new Error("Erro ao buscar animes mais populares");
@@ -211,23 +208,22 @@ async function searchAnimes(query) {
   try {
     return await Anime.find({
       $or: [
-        { title: { $regex: new RegExp(query, "i") } },         
-        { originalTitle: { $regex: new RegExp(query, "i") } }, 
-        { studio: { $regex: new RegExp(query, "i") } },        
-        { genres: { $regex: new RegExp(query, "i") } },        
+        { title: { $regex: new RegExp(query, "i") } },
+        { originalTitle: { $regex: new RegExp(query, "i") } },
+        { studio: { $regex: new RegExp(query, "i") } },
+        { genres: { $regex: new RegExp(query, "i") } },
       ],
     })
-      .limit(10) 
-      .sort({ createdAt: -1 }); 
+      .limit(10)
+      .sort({ createdAt: -1 });
   } catch (error) {
     console.error(error);
     throw new Error("Erro ao buscar animes");
   }
 }
 
-async function getAnimessByIds(ids) {
+async function getAnimesByIds(ids) {
   try {
-
     const animes = await Anime.find({ _id: { $in: ids } });
     return animes;
   } catch (error) {
@@ -235,10 +231,6 @@ async function getAnimessByIds(ids) {
     throw new Error("Erro ao buscar animes por IDs");
   }
 }
-
-
-
-
 
 module.exports = {
   getAllAnimes,
@@ -252,5 +244,5 @@ module.exports = {
   updateAnime,
   deleteAnime,
   searchAnimes,
-  getAnimessByIds,
+  getAnimesByIds,
 };

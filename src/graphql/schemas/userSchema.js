@@ -51,20 +51,11 @@ const userSchema = gql`
       password: String!
     ): AuthPayload
 
-    loginUser(
-      email: String!
-      password: String!
-    ): AuthPayload
+    loginUser(email: String!, password: String!): AuthPayload
 
-    updateUser(
-      id: ID!
-      input: UpdateUserInput!
-    ): User
+    updateUser(id: ID!, input: UpdateUserInput!): User
 
-    deleteUser(
-      id: ID!
-      reason: String
-    ): User
+    deleteUser(id: ID!, reason: String): User
   }
 `;
 

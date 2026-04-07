@@ -172,9 +172,7 @@ async function followUser(userId, followId) {
       throw new Error("Perfil não encontrado");
     }
 
-    const alreadyFollowing = profile.following.some(
-      (id) => id.toString() === followId,
-    );
+    const alreadyFollowing = profile.following.includes(followId);
 
     if (alreadyFollowing) {
       throw new Error("Você já segue esse usuário");
@@ -186,7 +184,9 @@ async function followUser(userId, followId) {
     await profile.save();
     await targetProfile.save();
 
-    return profile;
+    return await Profile.findOne({ user: userId })
+      .populate("followers")
+      .populate("following");
   } catch (error) {
     console.error(error);
     throw new Error("Erro ao seguir usuário");
@@ -203,17 +203,19 @@ async function unfollowUser(userId, unfollowId) {
     }
 
     profile.following = profile.following.filter(
-      (id) => id.toString() !== unfollowId,
+      (id) => id.toString() !== unfollowId
     );
 
     targetProfile.followers = targetProfile.followers.filter(
-      (id) => id.toString() !== userId,
+      (id) => id.toString() !== userId
     );
 
     await profile.save();
     await targetProfile.save();
 
-    return profile;
+    return await Profile.findOne({ user: userId })
+      .populate("followers")
+      .populate("following");
   } catch (error) {
     console.error(error);
     throw new Error("Erro ao deixar de seguir usuário");

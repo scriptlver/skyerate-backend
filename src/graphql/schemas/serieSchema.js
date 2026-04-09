@@ -8,22 +8,30 @@ module.exports = gql`
     seasons: Int
     releaseYear: Int
     description: String
+    coverImage: String
   }
 
   input SerieInput {
     title: String!
+    director: String
     genre: [String]!
     seasons: Int
+    episodes: Int
+    duration: String
+    platform: String
     releaseYear: Int
     description: String
+    coverImage: String
+    isBook: Boolean
+    bookName: String
   }
-
   input UpdateSerieInput {
     title: String
     genre: [String]
     seasons: Int
     releaseYear: Int
     description: String
+    imagem: String
   }
 
   type Query {

@@ -26,7 +26,7 @@ const serieSchema = new mongoose.Schema(
     },
 
     duration: {
-      type: String, 
+      type: String,
     },
 
     platform: {
@@ -45,10 +45,6 @@ const serieSchema = new mongoose.Schema(
       type: String,
     },
 
-    link: {
-      type: String,
-    },
-
     isBook: {
       type: Boolean,
       default: false,
@@ -61,7 +57,7 @@ const serieSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 module.exports = mongoose.model("Serie", serieSchema);

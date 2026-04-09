@@ -13,14 +13,6 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
 
-    cpf: {
-      type: String,
-      required: true,
-      unique: true,
-      trim: true,
-      match: [/^[0-9]{11}$/, "CPF deve conter exatamente 11 números"],
-    },
-
     password: {
       type: String,
       required: true,

@@ -1,4 +1,5 @@
 const Profile = require("../models/Profile");
+const Rating = require("../models/Rating")
 
 async function getProfile(userId) {
   try {
@@ -148,11 +149,26 @@ async function setFavoriteOfMonth(userId, itemId) {
       throw new Error("Perfil não encontrado");
     }
 
+    const rating = await Rating.findOne({
+      user: userId,
+      item: itemId,
+    });
+
+    if (!rating) {
+      throw new Error("Você só pode escolher itens que já avaliou");
+    }
+
     profile.favoriteOfMonth = itemId;
 
     await profile.save();
 
-    return profile;
+    return await Profile.findOne({ user: userId })
+      .populate("user")
+      .populate("favorites.item")
+      .populate("favoriteOfMonth")
+      .populate("followers")
+      .populate("following");
+
   } catch (error) {
     console.error(error);
     throw new Error("Erro ao definir favorito do mês");
@@ -231,11 +247,13 @@ async function deleteProfile(userId) {
     }
 
     return "Perfil excluído com sucesso";
-  } catch (error) {
+  } catch (error) { 
     console.error(error);
     throw new Error("Erro ao excluir perfil");
   }
 }
+
+
 
 module.exports = {
   getProfile,

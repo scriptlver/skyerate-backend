@@ -54,6 +54,11 @@ const ratingSchema = new mongoose.Schema(
       default: false,
     },
 
+    isFavoriteOfMonth: {
+      type: Boolean,
+      default: false,
+    },
+
     isSpoiler: {
       type: Boolean,
       default: false,

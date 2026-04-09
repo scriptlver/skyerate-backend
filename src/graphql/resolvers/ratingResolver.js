@@ -32,6 +32,9 @@ const ratingResolver = {
     trendingRatings: async (_, { limit = 10 }) => {
       return await ratingController.getTrendingRatings(limit);
     },
+    favoriteOfMonth: async (_, { userId }) => {
+  return await ratingSController.getFavoriteOfMonth(userId);
+}
   },
   Mutation: {
     createRating: async (_, { input }) => {

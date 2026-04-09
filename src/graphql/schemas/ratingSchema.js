@@ -28,6 +28,7 @@ const ratingSchema = gql`
     gif: String
     isFavorite: Boolean
     isSpoiler: Boolean
+    isFavoriteOfMonth: Boolean
 
     likes: [User]
     likesCount: Int
@@ -47,6 +48,7 @@ const ratingSchema = gql`
     topRatedRatings(limit: Int = 10): [Rating]
     recentRatings(limit: Int = 10): [Rating]
     trendingRatings(limit: Int = 10): [Rating]
+    favoriteOfMonth(userId: ID!): Rating
   }
 
   input SubRatingInput {
@@ -71,6 +73,7 @@ const ratingSchema = gql`
     gif: String
     isFavorite: Boolean
     isSpoiler: Boolean
+    isFavoriteOfMonth: Boolean
   }
 
   input UpdateRatingInput {
@@ -81,6 +84,7 @@ const ratingSchema = gql`
     gif: String
     isFavorite: Boolean
     isSpoiler: Boolean
+    isFavoriteOfMonth: Boolean
   }
 
   type Mutation {

@@ -11,6 +11,7 @@ const animeSchema = gql`
   type Anime {
     id: ID
     title: String
+    author: String
     originalTitle: String
     synopsis: String
     studio: String
@@ -35,6 +36,7 @@ const animeSchema = gql`
 
   input CreateAnimeInput {
     title: String!
+    author: String
     originalTitle: String
     synopsis: String
     studio: String
@@ -47,6 +49,7 @@ const animeSchema = gql`
 
   input UpdateAnimeInput {
     title: String
+    author: String
     originalTitle: String
     synopsis: String
     studio: String

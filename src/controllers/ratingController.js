@@ -7,7 +7,6 @@ const Movie = require("../models/Movie");
 const Anime = require("../models/Anime");
 const Serie = require("../models/Serie");
 const FigureSkating = require("../models/FigureSkating");
-
 const typeMap = { Book, Song, Movie, Anime, Serie, FigureSkating };
 
 async function populateItem(rating) {
@@ -24,7 +23,7 @@ async function populateItem(rating) {
     const item = await Model.findById(rating.itemId);
 
     if (!item) {
-      // fallback com id e type, evita erro GraphQL
+     
       rating.item = {
         id: rating.itemId,
         title: "Desconhecido",
@@ -38,7 +37,7 @@ async function populateItem(rating) {
     rating.item = { ...obj, id: obj._id, __typename: rating.itemType };
     return rating;
   } catch (err) {
-    // fallback se deu erro no find
+  
     rating.item = {
       id: rating.itemId,
       title: "Desconhecido",
@@ -93,10 +92,19 @@ async function updateRating(id, data) {
 
     data.finalScore = calculateFinalScore(data);
 
+    if (data.isFavoriteOfMonth === true) {
+      await Rating.updateMany(
+        { user: rating.user, _id: { $ne: id } },
+        { isFavoriteOfMonth: false }
+      );
+    }
+
     const updated = await Rating.findByIdAndUpdate(id, data, {
       new: true,
       runValidators: true,
     }).populate("user");
+
+    console.log(updated.isFavoriteOfMonth);
 
     return await populateItem(updated);
   } catch (err) {
@@ -169,6 +177,21 @@ async function deleteRating(id) {
   }
 }
 
+async function getFavoriteOfMonth(userId) {
+  try {
+    const rating = await Rating.findOne({
+      user: userId,
+      isFavoriteOfMonth: true,
+    }).populate("user");
+
+    if (!rating) return null;
+
+    return await populateItem(rating.toObject());
+  } catch (err) {
+    throw new Error("Erro ao buscar favorito do mês.");
+  }
+}
+
 module.exports = {
   createRating,
   updateRating,
@@ -178,6 +201,7 @@ module.exports = {
   getRatingsByType,
   getRatingById,
   deleteRating,
+  getFavoriteOfMonth,
 
   // likeRating,
   //unlikeRating,

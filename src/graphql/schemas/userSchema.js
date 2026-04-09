@@ -5,7 +5,7 @@ const userSchema = gql`
     id: ID!
     name: String!
     email: String!
-    cpf: String!
+    cpf: String
     role: String
     password: String!
     deletedAt: String
@@ -47,7 +47,7 @@ const userSchema = gql`
     createUser(
       name: String!
       email: String!
-      cpf: String!
+      cpf: String
       password: String!
     ): AuthPayload
 

@@ -7,6 +7,10 @@ const serieSchema = new mongoose.Schema(
       required: true,
     },
 
+    director: {
+      type: String,
+    },
+
     genre: [
       {
         type: String,
@@ -17,11 +21,41 @@ const serieSchema = new mongoose.Schema(
       type: Number,
     },
 
+    episodes: {
+      type: Number,
+    },
+
+    duration: {
+      type: String, 
+    },
+
+    platform: {
+      type: String,
+    },
+
     releaseYear: {
       type: Number,
     },
 
+    coverImage: {
+      type: String,
+    },
+
     description: {
+      type: String,
+    },
+
+    link: {
+      type: String,
+    },
+
+    isBook: {
+      type: Boolean,
+      default: false,
+      set: (v) => v === "true" || v === true,
+    },
+
+    bookName: {
       type: String,
     },
   },

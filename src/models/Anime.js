@@ -13,6 +13,11 @@ const animeSchema = new mongoose.Schema(
       trim: true,
     },
 
+    author: {
+      type: String,
+      trim: true,
+    },
+
     synopsis: {
       type: String,
       trim: true,

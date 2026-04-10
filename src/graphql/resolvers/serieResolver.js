@@ -12,4 +12,16 @@ module.exports = {
     updateSerie: (_, { id, data }) => serieController.updateSerie(id, data),
     deleteSerie: (_, { id }) => serieController.deleteSerie(id),
   },
+
+  addReview: async (_, { serieId, review }) => {
+    const serie = await Serie.findById(serieId);
+
+    if (!serie) throw new Error("Série não encontrada");
+
+    serie.reviews.push(review);
+
+    await serie.save();
+
+    return serie;
+  },
 };

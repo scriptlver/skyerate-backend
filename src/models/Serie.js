@@ -54,6 +54,21 @@ const serieSchema = new mongoose.Schema(
     bookName: {
       type: String,
     },
+
+    reviews: [
+      {
+        userName: String,
+        rating: Number,
+        comment: String,
+        date: String,
+        subRatings: [
+          {
+            category: String,
+            score: Number,
+          },
+        ],
+      },
+    ],
   },
   {
     timestamps: true,

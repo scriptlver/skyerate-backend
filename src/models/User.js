@@ -23,7 +23,6 @@ const UserSchema = new mongoose.Schema(
         "A senha deve conter pelo menos uma letra minúscula e um número",
       ],
     },
-
     role: {
       type: String,
       enum: ["user", "admin"],

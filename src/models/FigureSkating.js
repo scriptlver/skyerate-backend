@@ -66,6 +66,11 @@ const PerformanceSchema = new mongoose.Schema(
       default: 0,
     },
 
+    cover: {
+      type: String,
+      required: true,
+    },
+
     deductions: {
       type: Number,
       default: 0,

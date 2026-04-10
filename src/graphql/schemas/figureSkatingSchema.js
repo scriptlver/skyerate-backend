@@ -17,6 +17,7 @@ const figureSkatingSchema = gql`
         skaters: [String]
         artist: [String]
         skaterCountry: String
+        cover: String
         modality: String
         category: String
         event: String
@@ -57,6 +58,7 @@ const figureSkatingSchema = gql`
         skaters: [String]!
         artist: [String]!
         skaterCountry: String
+        cover: String
         modality: String!
         category: String
         event: String
@@ -73,6 +75,7 @@ const figureSkatingSchema = gql`
         music: [String]
         skaters: [String]
         artist: [String]
+        cover: String
         skaterCountry: String
         modality: String
         category: String

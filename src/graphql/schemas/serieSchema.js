@@ -105,7 +105,6 @@ type Serie {
   _id: ID!
   title: String
   director: String
-  ...
   reviews: [Review] 
 }
 `;

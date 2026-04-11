@@ -203,7 +203,7 @@ module.exports = {
   deleteRating,
   getFavoriteOfMonth,
 
-  // likeRating,
+  //likeRating,
   //unlikeRating,
   // addComment,
   //deleteComment,

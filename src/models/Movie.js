@@ -85,6 +85,19 @@ const MovieSchema = new mongoose.Schema(
       default: ""
     },
 
+    rating: {
+      average: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
+      },
+      count: {
+        type: Number,
+        default: 0,
+      },
+    },
+
     externalLinks: [ExternalLinkSchema],
 
     externalId: {

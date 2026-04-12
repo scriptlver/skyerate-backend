@@ -14,7 +14,7 @@ const movieResolver = {
       return await movieController.getMovieByGenre(genre);
     },
     moviesByIds: async (_, { ids }) => {
-              return await movieResolver.getMoviesByIds(ids);
+              return await movieController.getMoviesByIds(ids);
             },
   },
 

@@ -79,7 +79,7 @@ async function deleteSerie(id) {
 }
 
 // buscar várias séries por ids
-async function getSeriesByIds(ids) {
+async function getSeriesById(ids) {
   try {
     const series = await Serie.find({
       _id: { $in: ids },
@@ -99,5 +99,5 @@ module.exports = {
   getSerieById,
   updateSerie,
   deleteSerie,
-  getSeriesByIds,
+  getSeriesById,
 };

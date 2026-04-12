@@ -55,20 +55,23 @@ const serieSchema = new mongoose.Schema(
       type: String,
     },
 
-    reviews: [
-      {
-        userName: String,
-        rating: Number,
-        comment: String,
-        date: String,
-        subRatings: [
-          {
-            category: String,
-            score: Number,
-          },
-        ],
+     rating: {
+      average: {
+        type: Number,
+        default: 0,
+        min: 0,
+        max: 5,
       },
-    ],
+      count: {
+        type: Number,
+        default: 0,
+      },
+    },
+
+    externalId: {
+      type: String,
+      index: true,
+    },
   },
   {
     timestamps: true,

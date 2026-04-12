@@ -5,6 +5,10 @@ module.exports = {
     series: () => serieController.getAllSeries(),
     serie: (_, { id }) => serieController.getSerieById(id),
     seriesByGenre: (_, { genre }) => serieController.getSeriesByGenre(genre),
+    seriesById: async (_, { ids }) => {
+      return await serieController.getSeriesById(ids);
+    },
+
   },
 
   Mutation: {

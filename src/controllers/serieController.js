@@ -40,6 +40,7 @@ async function getSerieById(id) {
 
     return serie;
   } catch (error) {
+    console.error("ERRO REAL AO BUSCAR SÉRIE:", error);
     throw new Error("Erro ao buscar série");
   }
 }
@@ -77,6 +78,20 @@ async function deleteSerie(id) {
   }
 }
 
+// buscar várias séries por ids
+async function getSeriesByIds(ids) {
+  try {
+    const series = await Serie.find({
+      _id: { $in: ids },
+    });
+
+    return series;
+  } catch (error) {
+    console.error("Erro real ao buscar séries:", error);
+    throw new Error("Erro ao buscar séries");
+  }
+}
+
 module.exports = {
   createSerie,
   getAllSeries,
@@ -84,4 +99,5 @@ module.exports = {
   getSerieById,
   updateSerie,
   deleteSerie,
+  getSeriesByIds,
 };

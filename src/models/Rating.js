@@ -10,7 +10,7 @@ const ratingSchema = new mongoose.Schema(
 
     itemType: {
       type: String,
-      enum: ["Book", "Movie", "Series", "FigureSkating", "Anime", "Song"],
+      enum: ["Book", "Movie", "Serie", "FigureSkating", "Anime", "Song"],
       required: true,
     },
 

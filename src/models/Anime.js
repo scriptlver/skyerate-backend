@@ -61,6 +61,7 @@ const animeSchema = new mongoose.Schema(
           "esporte",
           "sobrenatural",
           "suspense",
+          "shounen",
         ],
       },
     ],

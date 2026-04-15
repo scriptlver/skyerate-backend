@@ -192,6 +192,43 @@ async function getFavoriteOfMonth(userId) {
   }
 }
 
+async function likeRating(ratingId, userId) {
+  try {
+    const rating = await Rating.findById(ratingId);
+    if (!rating) throw new Error("Avaliação não encontrada");
+
+    const alreadyLiked = rating.likes.some(
+      (id) => id.toString() === userId
+    );
+
+    if (!alreadyLiked) {
+      rating.likes.push(userId);
+      await rating.save();
+    }
+
+    return await rating.populate("user");
+  } catch (err) {
+    throw new Error("Erro ao curtir avaliação");
+  }
+}
+
+async function unlikeRating(ratingId, userId) {
+  try {
+    const rating = await Rating.findById(ratingId);
+    if (!rating) throw new Error("Avaliação não encontrada");
+
+    rating.likes = rating.likes.filter(
+      (id) => id.toString() !== userId
+    );
+
+    await rating.save();
+
+    return rating.populate("user");
+  } catch (err) {
+    throw new Error("Erro ao remover curtida");
+  }
+}
+
 module.exports = {
   createRating,
   updateRating,
@@ -202,9 +239,8 @@ module.exports = {
   getRatingById,
   deleteRating,
   getFavoriteOfMonth,
-
-  //likeRating,
-  //unlikeRating,
+  likeRating,
+  unlikeRating,
   // addComment,
   //deleteComment,
 

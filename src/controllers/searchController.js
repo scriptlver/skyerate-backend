@@ -1,6 +1,8 @@
 const Book = require("../models/Book");
 const Song = require("../models/Song");
 const Anime = require("../models/Anime"); // importar o model de Anime
+const Movie = require("../models/Movie");
+
 
 async function search(query) {
   try {
@@ -40,11 +42,27 @@ async function search(query) {
       ],
     }).limit(5);
 
+    const movies = await Movie.find({
+      $or: [
+        { name: { $regex: new RegExp(query, "i") } },
+        { director: { $regex: new RegExp(query, "i") } },
+      ],
+    }).limit(5);
+
+    const series = await Serie.find({
+      $or: [
+        { title: { $regex: new RegExp(query, "i") } },
+        { director: { $regex: new RegExp(query, "i") } },
+      ],
+    }).limit(5);
+
     return {
       books,
       songs,
       animes,
       performances,
+      movies,
+      series,
     };
   } catch (error) {
     console.error(error);

@@ -6,6 +6,8 @@ const searchSchema = gql`
     songs: [Song]
     animes: [Anime]
     performances: [FigureSkating]
+    movies: [Movie]
+    series: [Serie]
 
   }
 

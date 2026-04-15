@@ -11,13 +11,21 @@ async function createMovie(data) {
 }
 
 // listar todas 
-async function getAllMovie() {
-  try{
-     return await Movie.find().sort({ createdAt: -1 }); 
-  }catch (err){
-     throw new Error("Erro ao buscar filme");
+async function getAllMovie(search) {
+  try {
+    const filter = {};
+
+    if (search && search.trim() !== "") {
+      filter.name = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    return await Movie.find(filter).sort({ createdAt: -1 });
+  } catch (err) {
+    throw new Error("Erro ao buscar filme");
   }
-   
 }
 
 // listar por 

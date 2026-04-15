@@ -149,18 +149,19 @@ async function deletePerformance(id) {
   }
 }
 
-async function searchPerformances(_, { query }) {
+async function searchPerformances(query) {
   try {
    
     const regex = new RegExp(query, "i");
 
     const performances = await FigureSkating.find({
       $or: [
-        { skaters: { $elemMatch: { $regex: regex } } },
-        { music: { $elemMatch: { $regex: regex } } },
-        { artist: { $elemMatch: { $regex: regex } } },
-        { modality: { $regex: regex } },
-        { category: { $regex: regex } },
+        { skaters: regex },
+        { music: regex },
+        { artist: regex },
+        { modality: regex },
+        { category: regex },
+        { event: regex },
       ],
     }).sort({ createdAt: -1 });
 

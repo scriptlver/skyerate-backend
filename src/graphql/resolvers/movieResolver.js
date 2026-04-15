@@ -2,8 +2,8 @@ const movieController = require("../../controllers/movieController");
 
 const movieResolver = {
   Query: {
-    movies: async () => {
-      return await movieController.getAllMovie();
+    movies: async (_, { search }) => {
+      return await movieController.getAllMovie(search);
     },
 
     movie: async (_, { id }) => {

@@ -2,7 +2,8 @@ const serieController = require("../../controllers/serieController");
 
 module.exports = {
   Query: {
-    series: () => serieController.getAllSeries(),
+    series: (_, {search}) => serieController.getAllSeries(search),
+    searchSeries: (_, { query }) => serieController.getAllSeries(query),
     serie: (_, { id }) => serieController.getSerieById(id),
     seriesByGenre: (_, { genre }) => serieController.getSeriesByGenre(genre),
     seriesById: async (_, { ids }) => {

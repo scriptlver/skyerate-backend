@@ -65,7 +65,7 @@ module.exports = gql`
   }
 
    type Query {
-    movies: [Movie]
+    movies(search: String): [Movie]
     movie(id: ID!): Movie
     moviesByGenre(genre: String!): [Movie]
     moviesByIds(ids: [ID!]!): [Movie]
@@ -78,4 +78,3 @@ module.exports = gql`
   }
 
 `;
-  

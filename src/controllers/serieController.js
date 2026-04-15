@@ -10,14 +10,22 @@ async function createSerie(data) {
 }
 
 // listar todas
-async function getAllSeries() {
+async function getAllSeries(search) {
   try {
-    return await Serie.find().sort({ createdAt: -1 });
-  } catch (error) {
-    throw new Error("Erro ao buscar séries");
+    const filter = {};
+
+    if (search && search.trim() !== "") {
+      filter.title = {
+        $regex: search,
+        $options: "i",
+      };
+    }
+
+    return await Serie.find(filter).sort({ createdAt: -1 });
+  } catch (err) {
+    throw new Error("Erro ao buscar Série");
   }
 }
-
 // listar por gênero
 async function getSeriesByGenre(genre) {
   try {
